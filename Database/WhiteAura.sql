@@ -67,6 +67,31 @@ CREATE TABLE ContactUs (
     [Message] TEXT,
     CreatedAt DATETIME DEFAULT GETDATE()
 );
+CREATE TABLE Testimonials (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT REFERENCES Users(ID) ON DELETE CASCADE,
+    Text NVARCHAR(MAX),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+);
+
+ALTER TABLE Testimonials
+ADD statues NVARCHAR(50) DEFAULT 'Pending';
+
+
+  CREATE TABLE Admin (
+    AdminID INT PRIMARY KEY IDENTITY(1,1),
+   AdminName NVARCHAR(max)  NULL,
+    Role nVARCHAR(255) CHECK (Role IN ('SuperAdmin', 'Admin')) DEFAULT 'Admin',
+    Email NVARCHAR(max)  ,
+    PasswordHash NVARCHAR(max)  NULL
+);
+
+  create table Category (
+  ID int primary key identity,
+  CategoryName NVARCHAR(MAX);
+  [Image] NVARCHAR(MAX);
+  [Description] Text;
+  [Details] NVARCHAR(MAX);)
 
 
 
