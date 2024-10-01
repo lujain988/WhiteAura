@@ -1,0 +1,135 @@
+﻿
+
+@model WhiteAura.DTOs.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mobile-menu-overlay"></div>
+<div class="main-container">
+    <div class="pd-ltr-20">
+
+        <div class="row text-dark">
+
+            <div class="col-md-6 col-sm-12 mb-4">
+                <div class="card-box widget-style3" style="border: 1px solid #ddd; border-radius: 8px; background: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);height:194px">
+                    <h4 class="text-muted">Total Bookings</h4>
+                    <h2 class="text-primary" style="font-size: 48px;">@Model.TotalBookings</h2>
+                    <div class="chart-container" style="margin-top: 20px; position: relative;">
+                        <canvas></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 col-sm-12 mb-4">
+                <div class="card-box widget-style3" style="border: 1px solid #ddd; border-radius: 8px; background: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);height:194px">
+                    <h4 class="text-muted">Total Revenue</h4>
+                    <h2 class="text-primary" style="font-size: 48px;">@Model.TotalRevenue.ToString("C")</h2>
+                    <div class="chart-container" style="margin-top: 20px; position: relative;">
+                        <canvas></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6 col-sm-12 mb-4">
+                <div class="card-box widget-style3" style="border: 1px solid #ddd; border-radius: 8px; background: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+
+                    <h2 class="section-title">Monthly Bookings</h2>
+                    <div class="chart-container" style="margin-top: 20px; position: relative;">
+                        <canvas id="bookingsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-4">
+                <div class="card-box widget-style3" style="border: 1px solid #ddd; border-radius: 8px; background: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+
+                    <h2 class="section-title">Monthly Revenue</h2>
+                    <div class="chart-container" style="margin-top: 20px; position: relative;">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var bookingData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.MonthlyBookings));
+    var revenueData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.MonthlyRevenue));
+
+    // Total Bookings Chart
+    var bookingsChart = new Chart(document.getElementById('bookingsChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: bookingData.map(d => 'Month ' + d.Month),
+            datasets: [{
+                label: 'Monthly Bookings',
+                data: bookingData.map(d => d.Count),
+                borderColor: 'rgba(0, 123, 255, 1)',
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Total Revenue Chart
+    var revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: revenueData.map(d => 'Month ' + d.Month),
+            datasets: [{
+                label: 'Monthly Revenue',
+                data: revenueData.map(d => d.Total),
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1,
+                fill: true // This fills the area under the curve
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+</script>

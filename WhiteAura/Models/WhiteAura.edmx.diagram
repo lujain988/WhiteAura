@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e61b758178074d5abf315794d922d138" Name="Diagram1">
+        <EntityTypeShape EntityType="WhiteAuraModel.Blog" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Booking" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Category" Width="1.5" PointX="1.5" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.ConfirmationDate" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.ContactU" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Payment" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Plan" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Profile" Width="1.5" PointX="8.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Service" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhiteAuraModel.User" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Blog__AuthorID__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Bookings__Servic__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Bookings__UserID__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Confirmat__Booki__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Payments__Bookin__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Profile__Booking__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Services__Catego__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__ContactUs__UserI__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Plans__UserID__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Profile__UsersID__5441852A" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Testimonial" Width="1.5" PointX="8.25" PointY="13" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Testimoni__Booki__71D1E811" />
+        <AssociationConnector Association="WhiteAuraModel.FK__Testimoni__UserI__70DDC3D8" />
+        <EntityTypeShape EntityType="WhiteAuraModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

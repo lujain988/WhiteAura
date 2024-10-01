@@ -1,0 +1,30 @@
+﻿<!-- Testimonial Popup -->
+<div id="testimonialPopup" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>We would love your feedback!</h2>
+        <form id="testimonialForm" action="@Url.Action("SubmitTestimonial", "LoginandSignup")" method="post">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <textarea name="testimonial" placeholder="Your Testimonial" required></textarea>
+            <button type="submit">Submit</button>
+            <button type="button" onclick="skipTestimonial()">Skip</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Check if we need to show the testimonial popup
+        if (@(ViewBag.ShowTestimonialPopup.ToString().ToLower())) {
+            document.getElementById("testimonialPopup").style.display = "block";
+        }
+    });
+
+    function closeModal() {
+        document.getElementById("testimonialPopup").style.display = "none";
+    }
+
+    function skipTestimonial() {
+        closeModal();
+    }
+</script>

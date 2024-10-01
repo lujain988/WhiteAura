@@ -1,0 +1,272 @@
+header {
+    position: relative;
+    z-index: 1; /* Adjusted z-index */
+}
+
+.s-contact {
+    text-align: center;
+    background: url('background-image.jpg') no-repeat center center;
+    background-size: cover;
+    box-shadow: 0 4px 8px rgba(49, 46, 46, 0.856);
+    padding: 50px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-header h1 {
+    font-size: 36px;
+    color: #ffffff;
+}
+
+.contact-header p {
+    font-size: 18px;
+}
+
+.contact-options {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+}
+
+.contact-option {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 10px;
+    text-align: center;
+    width: 150px;
+    transition: transform 0.3s;
+}
+
+.contact-option:hover {
+    transform: scale(1.05);
+}
+
+.contact-option a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.contact-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.contact-button {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.contact-button.email-button {
+    color: #5a5a5a;
+}
+
+.contact-button.call-button {
+    color: #000000;
+}
+
+.contact-button:hover {
+    background-color: #1d1c1b;
+    color: #ffffff;
+}
+
+.contact-button:hover img {
+    filter: brightness(0) invert(1); 
+}
+
+.contact-section {
+    padding: 50px 0;
+    background-color: white;
+  }
+  .contact-form, .contact-info-box {
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .contact-form {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    /* background-image: url(../pic/wedding.jpg);
+    background-attachment: fixed; */
+    /* background-size: cover; */
+    /* box-shadow: 0 4px 8px rgba(49, 46, 46, 0.5); */
+  
+  }
+  .contact-info {
+    background-color: rgb(224, 223, 223);
+    color: rgb(0, 0, 0);
+  }
+  .contact-info h2 {
+    margin-bottom: 30px;
+  }
+  .contact-info-box {
+    background-color: white;
+    color: black;
+    border: 1px solid #000000;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  .contact-form h2, .contact-form p {
+    color: rgb(0, 0, 0);
+  }
+  .contact-form input, .contact-form textarea {
+    width: calc(50% - 10px);
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+  }
+  .contact-form button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .contact-info-box h4 {
+    margin-bottom: 5px;
+  }
+  .contact-info-box p {
+    margin: 0;
+  }
+  .row.align-items-lg-center.justify-content-center.h-100 {
+    background-attachment: fixed;
+    background-image: url(../pic/ven.jpg);
+    background-size: cover;
+
+
+  }
+@media screen and (max-width: 1024px) {
+    .nav-links.left,
+    .nav-links.right,
+    .search-container {
+      display: none;
+    }
+    .burger {
+      display: block;
+    }
+    .logo img {
+      height: 70px;
+      filter: brightness(1.5);
+      transition: filter 0.3s, transform 0.3s;
+    }
+    #navbar {
+      background: rgba(
+        255,
+        255,
+        255,
+        0.6
+      ); /* White glassy background for navbar */
+      backdrop-filter: blur(10px); /* Increased blur effect */
+    }
+    #side-nav {
+      display: block;
+    }
+    .side-nav {
+      width: 0;
+    }
+    .side-nav.active {
+      width: 250px;
+    }
+    .side-nav .search-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin: 20px 0;
+    }
+    .side-nav .search-bar {
+      width: 150px;
+      visibility: visible;
+      opacity: 1;
+    }
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .service {
+      flex: 1 1 100%;
+    }
+  
+    .services h2 {
+      font-size: 2em;
+    }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .nav-links.left,
+    .nav-links.right,
+    .search-container {
+      display: none;
+    }
+    .burger {
+      display: block;
+    }
+    .logo img {
+      height: 70px;
+      filter: brightness(1.5);
+      transition: filter 0.3s, transform 0.3s;
+    }
+    #navbar {
+      background: rgba(
+        255,
+        255,
+        255,
+        0.6
+      ); /* White glassy background for navbar */
+      backdrop-filter: blur(10px); /* Increased blur effect */
+    }
+    #side-nav {
+      display: block;
+    }
+    .side-nav {
+      width: 0;
+    }
+    .side-nav.active {
+      width: 250px;
+    }
+    .side-nav .search-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin: 20px 0;
+    }
+    .side-nav .search-bar {
+      width: 150px;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  /* Responsive styles */
+  @media screen and (max-width: 768px) {
+    .about-header {
+      flex-direction: column;
+      text-align: center;
+    }
+    a {
+        color: black !important;
+    }
+  }  

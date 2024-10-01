@@ -1,0 +1,255 @@
+﻿@model WhiteAura.Models.Blog
+
+
+<style>
+    /* Custom styles for white theme with black font */
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .header,
+    .footer,
+    .packages_box,
+    .about_text {
+        background-color: #fff;
+        color: #000;
+    }
+
+    a {
+        color: #000;
+    }
+
+        a:hover {
+            color: #000;
+        }
+
+    .read_more {
+        background: #000;
+        color: #fff;
+    }
+
+        .read_more:hover {
+            background: #fff;
+            color: #000;
+        }
+
+    .contactus {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    .send_btn {
+        background-color: #000;
+        color: #fff;
+        border: none;
+    }
+
+        .send_btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+    .titlepage h3 {
+        color: #000;
+    }
+
+    label {
+        color: #000;
+    }
+
+    select.contactus,
+    input.contactus {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+
+    .titlepage h2::before {
+        background: #333;
+    }
+
+    .about_text.text_align_center {
+        background: rgba(92, 90, 90, 0.1);
+        backdrop-filter: blur(10px);
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing .btn-primary {
+        background-color: #000;
+        border-color: #000;
+        color: #fff;
+    }
+
+        .pricing .btn-primary:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+    .pricing .display-3 {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .pricing .list-group-item svg {
+        fill: #000;
+    }
+
+    .pricing .list-group-item .text-danger {
+        fill: #000;
+    }
+
+    .our_packages {
+        border-top: rgba(255, 255, 255, 0.15) solid 125px;
+    }
+
+    /* Ensure the header image covers the entire header */
+    .header-content {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+    }
+
+        .header-content img.header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the container */
+        }
+
+    .header-form {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        position: relative;
+        height: 50vh !important; /* Increase header height */
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .blog-content {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        font-size: 1.2em; /* Adjust the size as needed */
+    }
+
+    .blog-gallery img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px; /* Space between images */
+        border-radius: 5px; /* Rounded corners for images */
+    }
+    .blog-content {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        font-size: 1.2em; /* Adjust the size as needed */
+        overflow-wrap: break-word; /* Allows long words to break and wrap onto the next line */
+        word-wrap: break-word; /* For compatibility with older browsers */
+        white-space: normal; /* Ensures text can wrap onto the next line */
+    }
+
+</style>
+
+<link rel="stylesheet" href="~/Content/css and js/blog.css" />
+<link rel="stylesheet" href="~/Content/css and js/venustyle.css" />
+
+@section HeaderContent {
+    <div class="header-content">
+        <img src="~/Content/pic/lala.jpg" alt="Bride" class="header-image" />
+        <div class="about-section">
+            <div class="contact-header">
+                <h1 style="font-size: 70px; color: white; text-align: center">
+                    Blog
+                </h1>
+                <p style="color: rgb(255, 255, 255); text-align: center">
+                    to read about some of the beautiful weddings we've had the
+                    pleasure
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container blog-details-section" style="color: black">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="blog-title">
+                <h1>@Model.Title</h1>
+            </div>
+            <div class="blog-date">@Model.CreatedAt.Value.ToString("yyyy-MM-dd")</div>
+            <img src="@Url.Content(Model.Image)" alt="@Model.Title" class="img-fluid" />
+            <br />
+            <div class="blog-content">
+                @Html.Raw(Model.BlogCont)
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <aside class="venue-info">
+                <h3>Gallery</h3>
+                <div class="blog-gallery">
+                  
+                    @if (!string.IsNullOrEmpty(Model.img1))
+                    {
+                        <img src="@Url.Content(Model.img1)" alt="Image 1" onclick="openModal('@Url.Content(Model.img1)')" />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.img2))
+                    {
+                        <img src="@Url.Content(Model.img2)" alt="Image 2" onclick="openModal('@Url.Content(Model.img2)')" />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.img3))
+                    {
+                        <img src="@Url.Content(Model.img3)" alt="Image 3" onclick="openModal('@Url.Content(Model.img3)')" />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.img4))
+                    {
+                        <img src="@Url.Content(Model.img4)" alt="Image 4" onclick="openModal('@Url.Content(Model.img4)')" />
+                    }
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Image Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Detailed View" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(imageSrc) {
+        document.getElementById('modalImage').src = imageSrc;
+        var modal = new bootstrap.Modal(document.getElementById('imageModal'));
+        modal.show();
+    }
+</script>

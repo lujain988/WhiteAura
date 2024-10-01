@@ -1,0 +1,136 @@
+﻿@model IEnumerable<WhiteAura.Models.Blog>
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <h1>All Blogs</h1>
+
+        <p>
+            @Html.ActionLink("Create New Blog", "CreateBlog", null, new { @class = "btn btn-primary" })
+        </p>
+
+        <div class="table-container">
+            <table class="table table-bordered table-hover table-responsive-sm table-sm shadow-sm" id="blogs-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="blogs-tbody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("yyyy-MM-dd") : "N/A")</td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditBlog", new { id = item.ID }, new { @class = "btn btn-sm btn-primary" })
+                                @Html.ActionLink("Details", "DetailsBlog", new { id = item.ID }, new { @class = "btn btn-sm btn-info" })
+
+                                <form action="@Url.Action("DeleteBlog", "Admin")" method="post" class="d-inline delete-form" id="deleteForm-@item.ID">
+                                    @Html.AntiForgeryToken() <!-- Anti-forgery token -->
+                                    <input type="hidden" name="id" value="@item.ID" />
+                                    <button type="button" class="btn btn-sm btn-danger delete-blog" data-id="@item.ID">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="pagination-container" class="d-flex justify-content-center mt-4"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            const itemsPerPage = 10; // Adjust the number of items per page
+            const $rows = $('#blogs-tbody tr');
+            const totalItems = $rows.length;
+            const $paginationContainer = $('#pagination-container');
+
+            function showPage(page) {
+                $rows.hide();
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                $rows.slice(start, end).show();
+
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                $paginationContainer.empty();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const $link = $('<button>')
+                        .text(i)
+                        .addClass('page-link btn btn-outline-secondary mx-1')
+                        .attr('data-page', i)
+                        .prop('disabled', i === currentPage);
+
+                    $paginationContainer.append($link);
+                }
+            }
+
+            // Initial page setup
+            showPage(1);
+
+            // Pagination click event
+            $paginationContainer.on('click', '.page-link', function () {
+                const page = $(this).data('page');
+                showPage(page);
+            });
+
+            // Delete blog functionality
+            $('.delete-blog').click(function () {
+                const blogId = $(this).data('id');
+                const form = $(this).closest('form');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this blog post!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            // Handle deletion logic
+                            $.post(form.attr('action'), form.serialize(), function (response) {
+                                if (response.success) {
+                                    swal("Poof! Your blog has been deleted!", {
+                                        icon: "success",
+                                    }).then(() => {
+                                        // Remove the blog row and update pagination
+                                        form.closest('tr').remove();
+                                        totalItems--;
+                                        const totalPages = Math.ceil(totalItems / itemsPerPage);
+                                        showPage(1); // Show the first page after deletion
+                                        updatePagination(1); // Update pagination after deletion
+                                    });
+                                } else {
+                                    swal("Error!", response.message, "error");
+                                }
+                            }).fail(function () {
+                                swal("Error!", "An error occurred while deleting the blog.", "error");
+                            });
+                        } else {
+                            swal("Your blog post is safe!");
+                        }
+                    });
+            });
+        });
+    </script>
+}

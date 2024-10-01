@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WhiteAuraModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdminName" Type="nvarchar(max)" />
+    <Property Name="Role" Type="nvarchar" MaxLength="255" />
+    <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Blog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="Content" Type="text" />
+    <Property Name="AuthorID" Type="int" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="Image" Type="nvarchar" MaxLength="255" />
+    <Property Name="img1" Type="nvarchar(max)" />
+    <Property Name="img2" Type="nvarchar(max)" />
+    <Property Name="img3" Type="nvarchar(max)" />
+    <Property Name="img4" Type="nvarchar(max)" />
+    <Property Name="BlogCont" Type="text" />
+  </EntityType>
+  <EntityType Name="Bookings">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="ServiceID" Type="int" />
+    <Property Name="BookingDate" Type="date" />
+    <Property Name="Status" Type="nvarchar(max)" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="NumOfGuest" Type="int" />
+    <Property Name="IsPaid" Type="bit" />
+    <Property Name="ConfirmedAt" Type="datetime" />
+    <Property Name="PaymentDeadline" Type="datetime" />
+    <Property Name="ReservedHours" Type="time" Precision="7" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar(max)" />
+    <Property Name="Image" Type="nvarchar(max)" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Details" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ConfirmationDate">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingsID" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ContactUs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Message" Type="text" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="Subject" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="IsReplied" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingID" Type="int" />
+    <Property Name="Amount" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="PaymentDate" Type="datetime" />
+    <Property Name="PaymentMethod" Type="nvarchar(max)" />
+    <Property Name="Status" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Plans">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlanName" Type="nvarchar(max)" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UserID" Type="int" />
+  </EntityType>
+  <EntityType Name="Profile">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UsersID" Type="int" />
+    <Property Name="BookingsID" Type="int" />
+  </EntityType>
+  <EntityType Name="Services">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceName" Type="nvarchar(max)" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="CategoryID" Type="int" />
+    <Property Name="Image" Type="nvarchar(max)" />
+    <Property Name="Type" Type="nvarchar(max)" />
+    <Property Name="City" Type="nvarchar(max)" />
+    <Property Name="Details" Type="nvarchar(max)" />
+    <Property Name="NumbeOfGuests" Type="int" />
+    <Property Name="Location" Type="nvarchar(max)" />
+    <Property Name="img1" Type="nvarchar(max)" />
+    <Property Name="img2" Type="nvarchar(max)" />
+    <Property Name="img3" Type="nvarchar(max)" />
+    <Property Name="img4" Type="nvarchar(max)" />
+    <Property Name="img5" Type="nvarchar(max)" />
+    <Property Name="img6" Type="nvarchar(max)" />
+    <Property Name="img7" Type="nvarchar(max)" />
+    <Property Name="LocationPlace" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Testimonials">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="BookingId" Type="int" />
+    <Property Name="Text" Type="nvarchar(max)" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="TestimonialSubmitted" Type="bit" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar(max)" />
+    <Property Name="Password" Type="nvarchar(max)" />
+    <Property Name="ConifrmPassword" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar" MaxLength="30" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="HasSkippedTestimonial" Type="bit" />
+  </EntityType>
+  <Association Name="FK__Blog__AuthorID__4BAC3F29">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Blog" Type="Self.Blog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Blog">
+        <PropertyRef Name="AuthorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__Servic__3F466844">
+    <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="ServiceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__UserID__3E52440B">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Confirmat__Booki__5DCAEF64">
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+    <End Role="ConfirmationDate" Type="Self.ConfirmationDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bookings">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ConfirmationDate">
+        <PropertyRef Name="BookingsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ContactUs__UserI__4F7CD00D">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="ContactUs" Type="Self.ContactUs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ContactUs">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payments__Bookin__440B1D61">
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+    <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bookings">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="BookingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Plans__UserID__5165187F">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Plans">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Profile__Booking__5535A963">
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bookings">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="BookingsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Profile__UsersID__5441852A">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="UsersID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Services__Catego__59063A47">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Services" Type="Self.Services" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Services">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Testimoni__Booki__71D1E811">
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Testimonials" Type="Self.Testimonials" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bookings">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Testimonials">
+        <PropertyRef Name="BookingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Testimoni__UserI__70DDC3D8">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Testimonials" Type="Self.Testimonials" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Testimonials">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WhiteAuraModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ConfirmationDate" EntityType="Self.ConfirmationDate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Testimonials" EntityType="Self.Testimonials" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Blog__AuthorID__4BAC3F29" Association="Self.FK__Blog__AuthorID__4BAC3F29">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Blog" EntitySet="Blog" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__Servic__3F466844" Association="Self.FK__Bookings__Servic__3F466844">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__UserID__3E52440B" Association="Self.FK__Bookings__UserID__3E52440B">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Confirmat__Booki__5DCAEF64" Association="Self.FK__Confirmat__Booki__5DCAEF64">
+      <End Role="Bookings" EntitySet="Bookings" />
+      <End Role="ConfirmationDate" EntitySet="ConfirmationDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ContactUs__UserI__4F7CD00D" Association="Self.FK__ContactUs__UserI__4F7CD00D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ContactUs" EntitySet="ContactUs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payments__Bookin__440B1D61" Association="Self.FK__Payments__Bookin__440B1D61">
+      <End Role="Bookings" EntitySet="Bookings" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Plans__UserID__5165187F" Association="Self.FK__Plans__UserID__5165187F">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Plans" EntitySet="Plans" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Profile__Booking__5535A963" Association="Self.FK__Profile__Booking__5535A963">
+      <End Role="Bookings" EntitySet="Bookings" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Profile__UsersID__5441852A" Association="Self.FK__Profile__UsersID__5441852A">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Services__Catego__59063A47" Association="Self.FK__Services__Catego__59063A47">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Services" EntitySet="Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Testimoni__Booki__71D1E811" Association="Self.FK__Testimoni__Booki__71D1E811">
+      <End Role="Bookings" EntitySet="Bookings" />
+      <End Role="Testimonials" EntitySet="Testimonials" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Testimoni__UserI__70DDC3D8" Association="Self.FK__Testimoni__UserI__70DDC3D8">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Testimonials" EntitySet="Testimonials" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

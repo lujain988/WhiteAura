@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WhiteAura.Models.Blog>
+
+<style>
+    /* Custom styles for white theme with black font */
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .header,
+    .footer {
+        background-color: #fff;
+        color: #000;
+    }
+
+    a {
+        color: #000;
+    }
+
+    /* Ensure the header image covers the entire header */
+    .header-content {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+    }
+
+        .header-content img.header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the container */
+        }
+
+    .header-form {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        position: relative;
+        height: 50vh !important; /* Increase header height */
+        overflow: hidden;
+        background-color: #fff;
+    }
+</style>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+<style>
+    .blog-section {
+        padding: 50px 0;
+        background-color: #f8f9fa;
+    }
+
+        .blog-section .titlepage {
+            margin-bottom: 30px;
+        }
+
+        .blog-section .blog-item {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+            .blog-section .blog-item img {
+                width: 100%;
+                height: auto;
+            }
+
+        .blog-section .blog-details {
+            padding: 20px;
+        }
+
+            .blog-section .blog-details h3 {
+                margin-top: 0;
+            }
+
+            .blog-section .blog-details .date {
+                color: #aaa;
+                font-size: 0.9em;
+            }
+</style>
+
+<link rel="stylesheet" href="~/Content/css and js/venustyle.css" />
+
+@section HeaderContent {
+    <div class="header-content">
+        <img src="~/Content/pic/lala.jpg" alt="Bride" class="header-image" />
+        <div class="about-section">
+            <div class="contact-header">
+                <h1 style="font-size: 70px; color: white; text-align: center">
+                    Blog
+                </h1>
+                <p style="color: rgb(255, 255, 255); text-align: center">
+                    to read about some of the beautiful weddings we've had the
+                    pleasure
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container blog-section" style="color: black">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="titlepage text_align_center">
+                <h2>Our Wedding Stories</h2>
+                <p>
+                    Read about some of the beautiful weddings we've had the pleasure
+                    of organizing. Each story is unique and filled with love and joy.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var blog in Model)
+        {
+            <div class="col-md-6 blog-item">
+                <a href="@Url.Action("Details", "Blog", new { title = blog.Title })">
+                    <img src='@(string.IsNullOrEmpty(blog.Image) ? Url.Content("~/Content/default-image.jpg") : Url.Content(blog.Image))' alt="@blog.Title" class="img-fluid" />
+                </a>
+                <div class="blog-details">
+                    <h3>@blog.Title</h3>
+                    <p class="date">@blog.CreatedAt.Value.ToString("yyyy-MM-dd")</p>
+                    <p>@Html.Raw(blog.Content)</p>
+                    <a href="@Url.Action("Details", "Blog", new { title = blog.Title })" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

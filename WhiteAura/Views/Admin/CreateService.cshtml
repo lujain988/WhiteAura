@@ -1,0 +1,246 @@
+﻿@model WhiteAura.Models.Service
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Create New Service";
+}
+<br />
+<br />
+<div class="container">
+    <h2>Create New Vendor</h2>
+
+    @using (Html.BeginForm("CreateService", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "createServiceForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-container">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ServiceName, "Vendor Name", new { @class = "form-label" })
+        @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ServiceName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, new { @class = "form-label" })
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price, new { @class = "form-label" })
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control", type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CategoryID, "Category", new { @class = "form-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image, new { @class = "form-label" })
+        @Html.TextBox("Image", null, new { type = "file", @class = "form-control" })
+        @Html.ValidationMessage("Image", "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Type, new { @class = "form-label" })
+        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.City, new { @class = "form-label" })
+        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Details, new { @class = "form-label" })
+        @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NumbeOfGuests, "Number of Guests", new { @class = "form-label" })
+        @Html.EditorFor(model => model.NumbeOfGuests, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.NumbeOfGuests, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Location, new { @class = "form-label" })
+        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+    </div>
+
+    @* Manually define the image fields *@
+    @RenderImageField(1)
+    @RenderImageField(2)
+    @RenderImageField(3)
+    @RenderImageField(4)
+    @RenderImageField(5)
+    @RenderImageField(6)
+    @*@RenderImageField(7)*@
+
+    <div class="form-actions">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</div>
+    }
+
+    <div class="back-link">
+        @Html.ActionLink("Back to List", "GetVendros", null, new { @class = "btn btn-secondary" })
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 26px;
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    .form-container {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .form-control {
+        height: calc(1.5em + 1.75rem + 2px);
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@helper RenderImageField(int index)
+{
+    <div class="form-group">
+        @Html.Label($"img{index}", $"Image {index}", new { @class = "form-label" })
+        @Html.TextBox($"img{index}", null, new { type = "file", @class = "form-control" })
+        @Html.ValidationMessage($"img{index}", "", new { @class = "text-danger" })
+    </div>
+}
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#createServiceForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent the form from submitting normally
+                var form = $(this)[0]; // Get the raw form element
+                var formData = new FormData(form); // Create FormData object
+
+                // Show the SweetAlert confirmation
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to create this service!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, create it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form via AJAX
+                        $.ajax({
+                            url: $(form).attr('action'),
+                            type: 'POST',
+                            data: formData,
+                            contentType: false, // Set contentType to false for file upload
+                            processData: false, // Prevent jQuery from automatically transforming the data into a query string
+                            success: function (response) {
+                                Swal.fire(
+                                    'Created!',
+                                    'Your service has been created.',
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = '@Url.Action("GetVendros", "Admin")'; // Redirect to the list page
+                                });
+                            },
+                            error: function (xhr) {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was an error creating the service: ' + xhr.responseText,
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

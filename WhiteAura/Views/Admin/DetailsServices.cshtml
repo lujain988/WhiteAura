@@ -1,0 +1,104 @@
+﻿@model WhiteAura.Models.Category
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <div class="container">
+            <div>
+                <h4>Category Details</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">Category Name</dt>
+                    <dd class="col-sm-10">@Model.CategoryName</dd>
+
+                    <dt class="col-sm-2">Description</dt>
+                    <dd class="col-sm-10">@Model.Description</dd>
+
+                    <dt class="col-sm-2">Details</dt>
+                    <dd class="col-sm-10">@Model.Details</dd>
+
+                    <dt class="col-sm-2">Main Image</dt>
+                    <dd class="col-sm-10">
+                        @if (!string.IsNullOrEmpty(Model.Image))
+                        {
+                            <img src="@Url.Content( Model.Image)" alt="Main Image" class="img-fluid" />
+                        }
+                        else
+                        {
+                            <p>No main image uploaded.</p>
+                        }
+                    </dd>
+                </dl>
+            </div>
+
+            <div>
+                <h5>Associated Services</h5>
+                <div class="overflow-container">
+                    <ul class="list-group">
+                        @if (Model.Services != null && Model.Services.Count > 0)
+                        {
+                            foreach (var service in Model.Services)
+                            {
+                                <li class="list-group-item">
+                                    <a href="@Url.Action("DetailsVendors", "Admin", new { id = service.ID })" class="service-link">
+                                        @service.ServiceName
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No associated services.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="@Url.Action("GetCategory", "Admin", new { area = "" })" class="btn btn-secondary">
+                    Back to List
+                </a>
+            </div>
+
+            <style>
+                .overflow-container {
+                    max-height: 150px; /* Adjust height as needed */
+                    overflow-y: auto; /* Enable vertical scrolling */
+                    border: 1px solid #dee2e6;
+                    border-radius: 0.25rem;
+                    margin-top: 10px;
+                    background-color: #f8f9fa; /* Match background */
+                }
+
+                .list-group {
+                    margin: 0; /* Reset margin */
+                    padding: 0; /* Reset padding */
+                }
+
+                .list-group-item {
+                    padding: 10px 15px;
+                    border: none;
+                    transition: background-color 0.3s ease;
+                }
+
+                    .list-group-item:hover {
+                        background-color: #e2e6ea;
+                    }
+
+                .service-link {
+                    text-decoration: none;
+                    color: #007bff;
+                    font-weight: bold;
+                }
+
+                    .service-link:hover {
+                        text-decoration: underline;
+                        color: #0056b3;
+                    }
+            </style>
+        </div>
+    </div>
+</div>

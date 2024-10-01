@@ -1,0 +1,110 @@
+﻿@model IEnumerable<WhiteAura.Models.Category>
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml"; // Ensure you have the correct layout
+    ViewBag.Title = "Get Category";
+}
+
+<style>
+    .btn-group .btn {
+        margin-right: 5px; /* Adjust spacing as needed */
+    }
+
+    .table-auto th, .table-auto td {
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+</style>
+<br />
+<br />
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <h1>All Categories</h1>
+
+        <p>
+            @Html.ActionLink("Create New Category", "AddCategory", null, new { @class = "btn btn-primary" })
+        </p>
+
+        <div class="table-container">
+            <table class="table table-bordered table-hover table-responsive-sm table-sm shadow-sm table-auto">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    @Html.ActionLink("Edit", "EditCategory", new { id = item.ID }, new { @class = "btn btn-sm btn-primary" })
+                                    @Html.ActionLink("Details", "DetailsServices", new { id = item.ID }, new { @class = "btn btn-sm btn-info" })
+                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete('@Url.Action("DeleteCategory", "Admin")', @item.ID)">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HTML for Pagination Controls -->
+        <div id="pagination-container" class="d-flex justify-content-center mt-4"></div>
+    </div>
+</div>
+
+<!-- Include SweetAlert CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<script>
+    function confirmDelete(deleteUrl, categoryId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "All vendors associated with this category will be deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with the deletion
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'POST',
+                    data: { id: categoryId },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire(
+                                'Deleted!',
+                                response.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(); // Reload the page to see changes
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                response.message,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred while trying to delete the category.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+</script>

@@ -1,0 +1,75 @@
+﻿@model WhiteAura.Models.ContactU
+
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<br />
+<br />
+<div class="container mt-4">
+    <h2>Contact Message Details</h2>
+
+    <div>
+        <h4>Contact Information</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd>@Model.Name</dd>
+
+            <dt>Email</dt>
+            <dd>@Model.Email</dd>
+
+            <dt>Phone</dt>
+            <dd>@Model.PhoneNumber</dd>
+
+            <dt>Subject</dt>
+            <dd>@Model.Subject</dd>
+
+            <dt>Message</dt>
+            <dd class="message-content">@Model.Message</dd>
+
+            <dt>Date Sent</dt>
+            <dd>@(Model.CreatedAt.HasValue ? Model.CreatedAt.Value.ToString("yyyy-MM-dd") : "N/A")</dd>
+        </dl>
+    </div>
+
+    <p>
+        @Html.ActionLink("Reply", "ReplyContact", new { id = Model.ID }, new { @class = "btn btn-warning" }) |
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+    </p>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        margin: 5px 0;
+    }
+
+    dl {
+        margin: 20px 0;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dd {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .message-content {
+        white-space: pre-wrap; 
+        word-wrap: break-word; 
+        max-height: 300px; 
+        overflow-y: auto; 
+    }
+</style>

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WhiteAura.Models.User>
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <h1>All Users</h1>
+
+        <div class="table-container">
+            <table id="users-table" class="table table-bordered table-hover table-responsive-sm table-sm shadow-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Description</th>
+                        @*<th scope="col">Created At</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="user-row">
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            @*<td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HTML for Pagination Controls -->
+        <div id="pagination-container" class="d-flex justify-content-center mt-4"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SweetAlert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            const itemsPerPage = 10;
+            const $rows = $('.user-row');
+            const totalItems = $rows.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const $paginationContainer = $('#pagination-container');
+
+            function showPage(page) {
+                $rows.hide(); 
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                $rows.slice(start, end).show();
+
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                $paginationContainer.empty();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const $link = $('<button>')
+                        .text(i)
+                        .addClass('page-link btn btn-outline-secondary')
+                        .attr('data-page', i)
+                        .prop('disabled', i === currentPage); 
+
+                    $paginationContainer.append($link);
+                }
+            }
+
+            showPage(1);
+
+            $paginationContainer.on('click', '.page-link', function () {
+                const page = $(this).data('page');
+                showPage(page);
+            });
+        });
+    </script>
+}

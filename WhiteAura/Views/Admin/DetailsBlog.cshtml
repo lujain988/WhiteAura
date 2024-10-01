@@ -1,0 +1,92 @@
+﻿@model WhiteAura.Models.Blog
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <div class="container">
+            <div>
+                <h4>Blog Details</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">Title</dt>
+                    <dd class="col-sm-10">@Model.Title</dd>
+
+                    <dt class="col-sm-2">Content</dt>
+                    <dd class="col-sm-10">@Html.Raw(Model.Content)</dd>
+
+
+
+                    <dt class="col-sm-2">Main Image</dt>
+                    <dd class="col-sm-10">
+                        @if (!string.IsNullOrEmpty(Model.Image))
+                        {
+                            <img src="@Url.Content( Model.Image)" alt="Main Image" class="img-fluid" />
+                        }
+                        else
+                        {
+                            <p>No main image uploaded.</p>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-2">Created At</dt>
+                    <dd class="col-sm-10">@Model.CreatedAt.Value.ToString("MMMM dd, yyyy")</dd>
+
+                </dl>
+            </div>
+
+            <div>
+                <h5>Additional Images</h5>
+                <div class="row">
+                    @if (!string.IsNullOrEmpty(Model.img1))
+                    { <div class="col-sm-4 mb-2"><img src="@Url.Content( Model.img1)" alt="Image 1" class="img-fluid" /></div> }
+                    @if (!string.IsNullOrEmpty(Model.img2))
+                    { <div class="col-sm-4 mb-2"><img src="@Url.Content(Model.img2)" alt="Image 2" class="img-fluid" /></div> }
+                    @if (!string.IsNullOrEmpty(Model.img3))
+                    { <div class="col-sm-4 mb-2"><img src="@Url.Content(Model.img3)" alt="Image 3" class="img-fluid" /></div> }
+                    @if (!string.IsNullOrEmpty(Model.img4))
+                    { <div class="col-sm-4 mb-2"><img src="@Url.Content(Model.img4)" alt="Image 4" class="img-fluid" /></div> }
+                </div>
+            </div>
+
+            <div>
+                @Html.ActionLink("Edit", "EditBlog", new { id = Model.ID }, new { @class = "btn btn-sm btn-primary" }) |
+                @Html.ActionLink("Back to List", "Blog", new { area = "" }, new { @class = "btn btn-sm btn-secondary" })
+            </div>
+        </div>
+        
+        <!-- HTML for Pagination Controls -->
+        <div id="pagination-container" class="d-flex justify-content-center mt-4"></div>
+    </div>
+</div>
+
+<style>
+    .main-container {
+        margin: 20px;
+    }
+
+    h4, h5 {
+        margin-bottom: 20px;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dd {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .btn {
+        margin: 5px 0;
+    }
+</style>
+

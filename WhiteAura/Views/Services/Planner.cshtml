@@ -1,0 +1,538 @@
+﻿@model List<WhiteAura.Models.Service>
+
+
+<link rel="stylesheet"
+      href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+<!-- style css -->
+<link rel="stylesheet" href="~/Content/css/style.css" />
+<!-- Responsive-->
+<link rel="stylesheet" href="~/Content/css/responsive.css" />
+<!-- fevicon -->
+<link rel="icon" href="~/Content/images/fevicon.png" type="image/gif" />
+<!-- Tweaks for older IEs-->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/css/nice-select.css" />
+<link rel="stylesheet" href="~/Content/css/bootstrap-datepicker.min.css" />
+<link rel="stylesheet" href="~/Content/css/niceCountryInput.css" />
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css" />
+
+<style>
+
+    <style >
+    /* Custom styles for white theme with black font */
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .header,
+    .footer,
+    .packages_box,
+    .about_text {
+        background-color: #fff;
+        color: #000;
+    }
+
+    a {
+        color: #000;
+    }
+
+        a:hover {
+            color: #000;
+        }
+
+    .read_more {
+        background: #000;
+        color: #fff;
+    }
+
+        .read_more:hover {
+            background: #fff;
+            color: #000;
+        }
+
+    .contactus {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    .send_btn {
+        background-color: #000;
+        color: #fff;
+        border: none;
+    }
+
+        .send_btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+    .titlepage h3 {
+        color: #000;
+    }
+
+    label {
+        color: #000;
+    }
+
+    select.contactus,
+    input.contactus {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+
+    .titlepage h2::before {
+        background: #333;
+    }
+
+    .about_text.text_align_center {
+        background: rgba(92, 90, 90, 0.1);
+        backdrop-filter: blur(10px);
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing .btn-primary {
+        background-color: #000;
+        border-color: #000;
+        color: #fff;
+    }
+
+        .pricing .btn-primary:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+    .pricing .display-3 {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .pricing .list-group-item svg {
+        fill: #000;
+    }
+
+    .pricing .list-group-item .text-danger {
+        fill: #000;
+    }
+
+    .our_packages {
+        border-top: rgba(255, 255, 255, 0.15) solid 125px;
+    }
+
+    /* Ensure the header image covers the entire header */
+    .header-content {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+    }
+
+        .header-content img.header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the container */
+        }
+
+    .header-form {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        position: relative;
+        height: 50vh !important; /* Increase header height */
+        overflow: hidden;
+        background-color: #fff;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/css and js/venustyle.css" />
+@{
+    var categoryId = ViewBag.CategoryId as int?;
+}
+
+@section HeaderContent {
+    @foreach (var service in Model)
+    {
+
+        <div class="header-content">
+            <img src="~/Content/pic/booking.jpg" alt="Bride" class="header-image" />
+            <div class="about-section">
+                <div class="contact-header">
+                    <h1 style="font-size: 70px; color: white">
+                        @if (categoryId == 2)
+                        {
+                            @:Planner
+                        }
+                        else if (categoryId == 3)
+                        {
+                            @:Photographer
+                        }
+                    </h1>            <p style="color: rgb(255, 255, 255); text-align: center">
+                        @service.Category.Details
+                    </p>
+                </div>
+            </div>
+        </div>          }
+
+}
+
+
+<!-- packages -->
+<div class="packages">
+    <div class="container">
+        @{
+            bool isCategoryDisplayed = false;
+        }
+
+        @foreach (var service in Model)
+        {
+            if (!isCategoryDisplayed)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="titlepage text_align_center">
+                            <h2>@service.Category.CategoryName</h2>
+                        </div>
+                    </div>
+                </div>
+
+                isCategoryDisplayed = true;
+            }
+
+
+        }
+
+
+        <div class="row" id="venue-cards">
+            @foreach (var service in Model)
+            {
+                <div class="col-md-6">
+                    <div class="packages_box"
+                         data-aos="@(service.ID % 2 == 0 ? "fade-left" : "fade-right")"
+                         data-city="@service.City"
+                         data-price="@service.Price"
+                         data-type="@service.Type"
+                         data-description="@service.Description"
+                         data-guests="1000"
+                         data-location="Jordan"
+                         data-album='["@Url.Content(service.Image)", "@Url.Content(service.Image.Replace(".jpg", "_1.jpg"))", "@Url.Content(service.Image.Replace(".jpg", "_2.jpg"))"]'>
+                        <figure>
+                            @if (service.CategoryID == 3)
+                            {
+                                <img src="@Url.Content(service.Image)" alt="@service.ServiceName" />
+                            }
+                            else
+                            {
+                                <img src="@Url.Content(service.Image)" alt="@service.ServiceName" style="height:400px;" />
+                            }
+                        </figure>
+                        <div class="tuscany">
+                            <div class="tusc text_align_left">
+                                <div class="place">
+                                    <h3>@service.ServiceName</h3>
+                                    <span>
+                                        <img src="~/Content/images/loca.png"
+                                             alt="Location"
+                                             style="filter: brightness(0) saturate(100%)" />
+                                        @service.City
+                                    </span>
+                                    <span>Type: @service.Type</span>
+                                </div>
+                                <div class="place_right">
+                                    <h3>Price</h3>
+                                    <span>@service.Price</span>
+                                </div>
+                            </div>
+                            <p>@service.Description</p>
+                            <div class="tusc">
+                                <a class="read_more"
+                                   href="@Url.Action( "Details" , "Services", new { id = service.ID })">
+                                    See More
+                                </a>
+                                <a class="read_more"
+                                   href="@Url.Action("CheckLogin", "LoginandSignup", new { id = service.ID })">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+    </div>
+</div>
+<!-- about -->
+<!--<div class="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="titlepage text_align_center">
+                    <h2 style="text-shadow: #000">About WhiteAura</h2>
+                </div>
+            </div>
+            <div class="col-md-10 offset-md-1">
+                <div class="about_text text_align_center">
+                    <p style="
+                  font-size: 20px;
+                  color: rgb(255, 255, 255);
+                  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+                ">
+                        WhiteAura is a premier wedding planner service specializing in
+                        creating memorable weddings at breathtaking venues and farms
+                        worldwide. We offer customized packages that cater to your
+                        unique preferences and ensure that your special day is nothing
+                        short of magical. With WhiteAura, your dream wedding is just a
+                        step away.
+                    </p>
+                    <a class="read_more" href="about.html">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!-- Pricing 2 - Bootstrap Brain Component -->
+<!--<section class="bsb-pricing-2 bg-light py-5 py-xl-8">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h3 class="fs-6 text-secondary mb-2 text-uppercase text-center">
+                    Our Pricing
+                </h3>
+                <h2 class="display-5 mb-4 mb-md-5 text-center">
+                    We offer great pricing plans for everyone.
+                </h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row gy-5 gy-lg-0 gx-xl-5">
+            <div class="col-12 col-lg-4">
+                <div class="card border-0 border-bottom border-primary shadow-sm">
+                    <div class="card-body p-4 p-xxl-5">
+                        <h2 class="h4 mb-2">Small Wedding</h2>
+                        <h4 class="display-3 fw-bold text-black mb-0">650 JD</h4>
+                        <p class="text-secondary mb-4">Intimate Wedding Planning</p>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Cozy Venue or Farm Selection</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Dedicated Wedding Photographer</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Day-of Coordination for Small Weddingse</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-x text-danger"
+                                     viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                                <span>Customized Décor and Design</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-x text-danger"
+                                     viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                                <span>Guest Management for Close-Knit Gatherings</span>
+                            </li>
+                        </ul>
+                        <a href="#!" class="btn bsb-btn-xl btn-primary rounded-pill">Choose Plan</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="card border-0 border-bottom border-primary shadow-lg pt-md-4 pb-md-4 bsb-pricing-popular">
+                    <div class="card-body p-4 p-xxl-5">
+                        <h2 class="h4 mb-2">Medium Wedding</h2>
+                        <h4 class="display-3 fw-bold text-black mb-0">1500 JD</h4>
+                        <p class="text-secondary mb-4">Detailed Wedding Planning</p>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Charming Venue or Farm Selection</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Professional Wedding Photography</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Day-of Coordination for Medium Weddings</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Elegant Décor and Design</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Guest Management Services</span>
+                            </li>
+                        </ul>
+                        <a href="#!" class="btn bsb-btn-xl btn-primary rounded-pill">Choose Plan</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="card border-0 border-bottom border-primary shadow-sm">
+                    <div class="card-body p-4 p-xxl-5">
+                        <h2 class="h4 mb-2">Large Wedding</h2>
+                        <h4 class="display-3 fw-bold text-black mb-0">5000 JD</h4>
+                        <p class="text-secondary mb-4">Full-Service Wedding Planning</p>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Grand Venue or Farm Selection</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Premium Wedding Photography</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Expert Day-of Coordination</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Luxurious Décor and Design</span>
+                            </li>
+                            <li class="list-group-item">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     fill="currentColor"
+                                     class="bi bi-check"
+                                     viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                                </svg>
+                                <span>Comprehensive Guest Management</span>
+                            </li>
+                        </ul>
+                        <a href="#!" class="btn bsb-btn-xl btn-primary rounded-pill">Choose Plan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+
+
+

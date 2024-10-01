@@ -1,0 +1,382 @@
+﻿
+@model IEnumerable<WhiteAura.Models.Testimonial>
+
+
+<style>
+    .popup-overlay {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+        justify-content: center; /* Center the popup horizontally */
+        align-items: center; /* Center the popup vertically */
+        z-index: 1000; /* Sit on top */
+    }
+
+    .popup {
+        background-color: white; /* White background for the popup */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        width: 300px; /* Width of the popup */
+        position: relative; /* Relative for absolute positioning of close button */
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .wrap-text {
+        word-wrap: break-word; /* Break long words onto the next line */
+        overflow-wrap: break-word; /* Handle long text gracefully */
+        white-space: normal; /* Allow text to wrap normally */
+        max-width: 100%; /* Ensure it doesn’t exceed the container width */
+    }
+</style>
+
+
+
+@section HeaderContent {
+    <div class="header-content">
+        <video autoplay muted loop id="header-video">
+            <source src="~/Content/video/Untitled video - Made with Clipchamp.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        <div class="header-text">
+            <h1>We will plan every detail of your wedding!</h1>
+            <button class="header-btn"
+                    onclick="location.href='@Url.Action("Services", "Services")'">
+                Plan My Wedding
+            </button>
+         
+
+        </div>
+    </div>
+}
+
+<main>
+    @if (ViewBag.ShowToastNotification != null && (bool)ViewBag.ShowToastNotification)
+    {
+        <div id="toast" style="display: flex; align-items: center; position: fixed; top: 80px; right: 20px; background-color: #333; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+            <span>Please submit your testimonial about WhiteAura!</span>
+            <button onclick="showPopup()" style="margin-left: 10px; background-color: #5cb85c; border: none; color: white; padding: 5px 10px; border-radius: 5px;">Submit</button>
+            <button onclick="closeToast()" style="margin-left: 10px; background-color: #d9534f; border: none; color: white; padding: 5px 10px; border-radius: 5px;">X</button>
+        </div>
+    }
+    <div class="popup-overlay" id="popupOverlay" style="display: none;">
+        <div id="testimonialPopup" class="popup" style="background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: black; width: 500px; max-width: 90%;">
+            <h2>Submit Your Testimonial about WhiteAura!</h2>
+            <form id="testimonialForm" method="post">
+                @Html.AntiForgeryToken()
+                <textarea name="TestimonialText" required style="width: 100%; height: 100px;"></textarea>
+                <button type="submit" id="submitTestimonialBtn" style="margin-top: 10px; background-color: #5cb85c; border: none; color: white; padding: 10px; border-radius: 5px;">Submit</button>
+            </form>
+            <button class="close-popup" onclick="closePopup()" style="margin-top: 10px; background-color: #d9534f; border: none; color: white; padding: 5px 10px; border-radius: 5px;">X</button>
+        </div>
+    </div>
+
+
+</main>
+
+
+
+
+
+
+<section class="about">
+    <div class="about-content">
+        <div class="about-header">
+            <div class="about-image">
+                <img src="~/Content/pic/pr1.jpg" alt="Bride" />
+            </div>
+            <div class="about-text">
+                <h2>Unrivaled Scenery, Unforgettable Moments</h2>
+                <p>
+                    At WhiteAura, our wedding planning and events coordination
+                    services are tailored to fit any budget, ensuring that everyone
+                    can have their dream wedding. We pride ourselves on creating
+                    unforgettable experiences, meticulously planning every detail to
+                    perfection.
+                </p>
+                <button class="read-more-btn"
+                        onclick="location.href='@Url.Action("About", "Home")'">
+                    Read More
+                </button>
+
+            </div>
+            <div class="about-image">
+                <img src="~/Content/pic/pr2.jpg" alt="Groom" />
+            </div>
+        </div>
+        <div class="about-stats">
+            <div class="stat">
+                <span class="count" data-target="1200">0</span>
+                <p>Happy Couples</p>
+            </div>
+            <div class="stat">
+                <span class="count" data-target="1545">0</span>
+                <p>Weddings</p>
+            </div>
+            <div class="stat">
+                <span class="count" data-target="750">0</span>
+                <p>Decoration</p>
+            </div>
+            <div class="stat">
+                <span class="count" data-target="265">0</span>
+                <p>Locations</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="black-theme-section"
+         style="
+          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+            sans-serif;
+          background-image: url(../../Content/pic/black2.jpg);
+          background-attachment: fixed;
+
+          font-weight: bold;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+          padding: 20px;
+          display: flex;
+          justify-content: center;
+        ">
+    <div class="text-content"
+         style="
+            background: rgba(0, 0, 0, 0.001);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            background-size: cover;
+            box-shadow: 0 4px 8px rgba(49, 46, 46, 0.5);
+          ">
+        <h2>Why us</h2>
+        <h3>Our advantages</h3>
+        <ul class="advantages-list">
+            <li>
+                <div class="advantage-title">Save time</div>
+                <div class="advantage-description">
+                    The services provided by our wedding planners can save you a lot
+                    of time.
+                </div>
+            </li>
+            <li>
+                <div class="advantage-title">Professional approach</div>
+                <div class="advantage-description">
+                    We will thoroughly plan every element of your wedding.
+                </div>
+            </li>
+            <li>
+                <div class="advantage-title">Team of wedding experts</div>
+                <div class="advantage-description">
+                    Wedding WhiteAura employs the best wedding experts in Jordan.
+                </div>
+            </li>
+            <li>
+                <div class="advantage-title">Acceptable prices</div>
+                <div class="advantage-description">
+                    Our clients value our affordable pricing policy and great
+                    service.
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="images-container">
+        <img src="~/Content/pic/pr3.jpg"
+             alt="Wedding decoration"
+             class="image-left" />
+    </div>
+</section>
+
+<section class="services mt-5">
+    <h2 class="text-center mb-5">Our Services</h2>
+    <div class="d-flex flex-wrap justify-content-center">
+        <div class="col-md-5 col-sm-12 mb-4" id="m4">
+            <div class="card card-block" id="cardd">
+                <h4 class="card-title text-right">
+                    <i class="material-icons">place</i>
+                </h4>
+                <img src="~/Content/pic/service1.jpg"
+                     alt="Wedding Venue"
+                     class="card-img-top" />
+                <h5 class="card-title mt-3 mb-3">Wedding Venue</h5>
+                <p class="card-text">
+                    Find the perfect venue for your special day.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-12 mb-4" id="m3">
+            <div class="card card-block" id="cardd1">
+                <h4 class="card-title text-right">
+                    <i class="material-icons">camera_alt</i>
+                </h4>
+                <img src="~/Content/pic/service2.jpg"
+                     alt="Wedding Photographer"
+                     class="card-img-top" />
+                <h5 class="card-title mt-3 mb-3">Wedding Photographer</h5>
+                <p class="card-text">Capture your best wedding moments.</p>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-12 mb-4" id="m2">
+            <div class="card card-block" id="cardd2">
+                <h4 class="card-title text-right">
+                    <i class="material-icons">nature</i>
+                </h4>
+                <img src="~/Content/pic/service3.jpg"
+                     alt="Wedding Farms"
+                     class="card-img-top" />
+                <h5 class="card-title mt-3 mb-3">Wedding Farms</h5>
+                <p class="card-text">
+                    Beautiful outdoor farm settings for your wedding.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-12 mb-4" id="m1">
+            <div class="card card-block" id="cardd3">
+                <h4 class="card-title text-right">
+                    <i class="material-icons">event</i>
+                </h4>
+                <img src="~/Content/pic/service4.jpg"
+                     alt="Wedding Planner"
+                     class="card-img-top" />
+                <h5 class="card-title mt-3 mb-3">Wedding Planner</h5>
+                <p class="card-text">
+                    Professional planning for a flawless wedding.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-3 py-md-5 py-xl-8 testimonials"
+         style="background-image: url(../../Content/pic/black8.jpg); background-attachment: fixed; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); padding: 20px; justify-content: center;" id="">
+    <div class="container overflow-hidden">
+        <!-- Add the headline here -->
+        <h2 class="text-center text-white mb-4" data-aos="fade-up">Testimonials</h2>
+
+        <div class="row justify-content-lg-around gy-5 gy-md-6">
+            @foreach (var testimonial in ViewBag.ApprovedTestimonials)
+            {
+                <div class="col-12 col-sm-6 col-lg-5">
+                    <div class="col-xl-11 col-xxl-10 mx-auto text-center testimonial" data-aos="slide-left">
+                        <p class="mb-2 text-white wrap-text" data-aos="fade-up">@testimonial.Text</p>
+                        <p class="m-0 fw-bold text-white" data-aos="fade-up" data-aos-delay="200">
+                            @testimonial.User.FullName
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<div class="container align-center">
+    <section class="contact-section">
+        <div class="container">
+            <div class="row justify-content-center align-items-center" style="min-height: 1vh;">
+                <!-- Center content vertically -->
+                <div class="col-md-6 text-center">
+                    <!-- Center text horizontally -->
+                    <div class="contact-info">
+                        <h2>
+                            We're Looking Forward To Hearing From You And Being A Part
+                            Of  Your Special Celebration.
+                        </h2>
+                        <div class="contact-info-box">
+                            <h4>Phone</h4>
+                            <p><i class="bi bi-telephone-fill"></i> +962 772 8166 72</p>
+                        </div>
+                        <div class="contact-info-box">
+                            <h4>Email</h4>
+                            <p><i class="bi bi-envelope-fill"></i> whiteaurateam@gmail.com</p>
+                        </div>
+                        <div class="contact-info-box">
+                            <h4>Visit Us</h4>
+                            <p>
+                                <i class="bi bi-geo-alt-fill"></i> Jordan, Irbid
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Show the toast notification when the page loads
+    window.onload = function () {
+        var toast = document.getElementById("toast");
+        if (toast) {
+            toast.style.display = "flex"; // Show the toast
+        }
+    };
+
+    function showPopup() {
+        document.getElementById("popupOverlay").style.display = "flex"; // Show the popup
+    }
+
+    function closePopup() {
+        document.getElementById("popupOverlay").style.display = "none"; // Hide the popup
+    }
+
+    function closeToast() {
+        var toast = document.getElementById("toast");
+        if (toast) {
+            toast.style.display = "none"; // Hide the toast when X is clicked
+        }
+    }
+
+    // Handle form submission with AJAX
+    document.getElementById('testimonialForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form from submitting normally
+
+        var formData = new FormData(this); // Create FormData object
+
+        fetch('@Url.Action("SubmitTestimonial", "Testimonial")', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message
+                });
+                closePopup(); // Close the popup
+            } else {
+                // Show error SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.message
+                });
+            }
+        })
+        .catch(error => {
+            // Handle any errors
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while submitting your testimonial.'
+            });
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+

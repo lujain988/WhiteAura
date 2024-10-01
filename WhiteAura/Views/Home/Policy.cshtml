@@ -1,0 +1,429 @@
+﻿<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+<link rel="stylesheet"
+      href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet"
+      href="https://unpkg.com/bs-brain@2.0.4/utilities/bsb-overlay/bsb-overlay.css" />
+<link rel="stylesheet"
+      href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+
+
+<style>
+    /* Custom styles for white theme with black font */
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .header,
+    .footer,
+    .packages_box,
+    .about_text {
+        background-color: #fff;
+        color: #000;
+    }
+
+    a {
+        color: #000;
+    }
+
+        a:hover {
+            color: #000;
+        }
+
+    .read_more {
+        background: #000;
+        color: #fff;
+    }
+
+        .read_more:hover {
+            background: #fff;
+            color: #000;
+        }
+
+    .contactus {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    .send_btn {
+        background-color: #000;
+        color: #fff;
+        border: none;
+    }
+
+        .send_btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+    .titlepage h3 {
+        color: #000;
+    }
+
+    label {
+        color: #000;
+    }
+
+    select.contactus,
+    input.contactus {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+
+    .titlepage h2::before {
+        background: #333;
+    }
+
+    .about_text.text_align_center {
+        background: rgba(92, 90, 90, 0.1);
+        backdrop-filter: blur(10px);
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing .btn-primary {
+        background-color: #000;
+        border-color: #000;
+        color: #fff;
+    }
+
+        .pricing .btn-primary:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+    .pricing .display-3 {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .pricing .list-group-item svg {
+        fill: #000;
+    }
+
+    .pricing .list-group-item .text-danger {
+        fill: #000;
+    }
+
+    .our_packages {
+        border-top: rgba(255, 255, 255, 0.15) solid 125px;
+    }
+
+    /* Ensure the header image covers the entire header */
+    .header-content {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+    }
+
+        .header-content img.header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the container */
+        }
+
+    .header-form {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        position: relative;
+        height: 50vh !important; /* Increase header height */
+        overflow: hidden;
+        background-color: #fff;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/css and js/venustyle.css" />
+
+
+
+@section HeaderContent {
+    <div class="header-content">
+        <img src="~/Content/pic/booking.jpg" alt="Bride" class="header-image" />
+        <div class="about-section">
+            <div class="contact-header">
+                <h1 style="font-size: 70px; color: white">Terms and Conditions</h1>
+                <p style="color: rgb(255, 255, 255); text-align: center">
+                    Know your terms!
+                </p>
+            </div>
+        </div>
+    </div>}
+
+<div class="container mt-5">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <!-- Term 1 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseOne">
+                    1. Agreement to Terms
+                </button>
+            </h2>
+            <div id="flush-collapseOne"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingOne"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    By accessing and using the WhiteAura website, you accept and agree
+                    to be bound by these terms and conditions. If you do not agree to
+                    these terms, please refrain from using our website.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 2 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseTwo">
+                    2. Booking and Payment
+                </button>
+            </h2>
+            <div id="flush-collapseTwo"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingTwo"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    All bookings require a non-refundable deposit to confirm the
+                    reservation. The remaining balance must be paid in full at least
+                    30 days before the event date. Failure to complete payment may
+                    result in cancellation of services.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 3 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingThree">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseThree"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseThree">
+                    3. Cancellation Policy
+                </button>
+            </h2>
+            <div id="flush-collapseThree"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingThree"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Cancellations made within 60 days of the event date will forfeit
+                    the deposit. Cancellations made within 30 days of the event date
+                    will forfeit the full payment. Refunds are subject to our
+                    discretion based on the circumstances.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 4 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingFour">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseFour"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseFour">
+                    4. Event Changes
+                </button>
+            </h2>
+            <div id="flush-collapseFour"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingFour"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Any changes to the event date, time, location, or services must be
+                    communicated in writing and are subject to availability.
+                    Additional charges may apply for any changes.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 5 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingFive">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseFive"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseFive">
+                    5. Vendor Coordination
+                </button>
+            </h2>
+            <div id="flush-collapseFive"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingFive"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    WhiteAura will coordinate with third-party vendors on behalf of
+                    the client. However, we are not liable for any issues or disputes
+                    arising with these vendors.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 6 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingSix">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseSix"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseSix">
+                    6. Client Responsibilities
+                </button>
+            </h2>
+            <div id="flush-collapseSix"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingSix"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Clients are responsible for providing accurate information and
+                    ensuring the availability of necessary permits and licenses.
+                    Failure to comply may result in delays or cancellations.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 7 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingSeven">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseSeven"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseSeven">
+                    7. Liability and Insurance
+                </button>
+            </h2>
+            <div id="flush-collapseSeven"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingSeven"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    WhiteAura is not liable for any damages, losses, or injuries that
+                    occur during the event. Clients are advised to secure their own
+                    event insurance to cover any potential risks.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 8 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingEight">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseEight"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseEight">
+                    8. Intellectual Property
+                </button>
+            </h2>
+            <div id="flush-collapseEight"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingEight"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    All content, designs, and materials on the WhiteAura website are
+                    the intellectual property of WhiteAura and are protected by
+                    copyright laws. Unauthorized use is prohibited.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 9 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingNine">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseNine"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseNine">
+                    9. Privacy Policy
+                </button>
+            </h2>
+            <div id="flush-collapseNine"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingNine"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    WhiteAura is committed to protecting your privacy. We will not
+                    share your personal information with third parties without your
+                    consent, except as required by law.
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 10 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTen">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTen"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseTen">
+                    10. Governing Law
+                </button>
+            </h2>
+            <div id="flush-collapseTen"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingTen"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    These terms and conditions are governed by and construed in
+                    accordance with the laws of the state in which WhiteAura operates.
+                    Any disputes will be resolved in the appropriate state courts.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

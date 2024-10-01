@@ -1,0 +1,208 @@
+﻿@model  WhiteAura.Models.User
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css"
+      rel="stylesheet" />
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: rgba(143, 150, 150, 0.199);
+    }
+
+    header {
+        margin-bottom: 0;
+    }
+
+    /* Navigation Bar Styles */
+    #navbar {
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 10px 20px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        #navbar .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #navbar .nav-links {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+            #navbar .nav-links li {
+                margin: 0 10px;
+            }
+
+            #navbar .nav-links a {
+                color: black;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+        #navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+            #navbar .logo img {
+                height: 40px;
+                margin-right: 10px;
+            }
+
+        #navbar .logo-text {
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #navbar .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+            #navbar .burger div {
+                width: 25px;
+                height: 3px;
+                background-color: black;
+                margin: 3px 0;
+            }
+
+        #navbar .logo img {
+            height: 71px;
+        }
+
+    @@media (max-width: 768px) {
+        #navbar .nav-links {
+            display: none;
+        }
+
+        #navbar .burger {
+            display: flex;
+        }
+
+        #navbar.active .nav-links {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+            #navbar.active .nav-links li {
+                margin: 10px 0;
+            }
+    }
+
+    .cascading-right {
+        margin-right: -50px;
+    }
+
+    @@media (max-width: 991.98px) {
+        .cascading-right {
+            margin-right: 0;
+        }
+    }
+
+    /* Ensure no space between navbar and content */
+    .container {
+        padding-top: 80px; /* Adjust based on navbar height */
+    }
+</style>
+
+<!-- Section: Design Block -->
+
+<section class="text-center text-lg-start">
+    <div class="container py-4">
+        <div class="row g-0 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="card cascading-right bg-body-tertiary" style="backdrop-filter: blur(30px)">
+                    <div class="card-body p-5 shadow-5 text-center">
+                        <h2 class="fw-bold mb-5">Sign up now</h2>
+                        @using (Html.BeginForm("SingUp", "LoginandSignup", FormMethod.Post, new { @class = "text-start" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert alert-danger">
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                                </div>
+                            }
+
+                            <div class="row">
+                                <div class="col-md-12 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        @Html.LabelFor(m => m.FullName, "Name: ", new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Enter your name", @id = "form3ExampleFullName", required = "required" })
+                                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                @Html.LabelFor(m => m.Email, "Email: ", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter your email", @id = "form3ExampleEmail", type = "email", required = "required" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                @Html.LabelFor(m => m.Password, "Password: ", new { @class = "form-label" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter your password", @id = "form3ExamplePassword", required = "required" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                @Html.LabelFor(m => m.ConifrmPassword, "Confirm Password: ", new { @class = "form-label" })
+                                @Html.PasswordFor(m => m.ConifrmPassword, new { @class = "form-control", @placeholder = "Confirm your password", @id = "form3ExampleConfirmPassword", required = "required" })
+                                @Html.ValidationMessageFor(m => m.ConifrmPassword, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="d-flex flex-column align-items-center">
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block mb-4">
+                                    Sign up
+                                </button>
+                            </div>
+                            @*<div class="text-center">
+                                <p>or sign up with:</p>
+                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-facebook" style="color: rgb(0, 0, 0)"></i>
+                                </button>
+                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-google" style="color: rgb(0, 0, 0)"></i>
+                                </button>
+                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-twitter" style="color: rgb(0, 0, 0)"></i>
+                                </button>
+                            </div>*@
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <img src="~/Content/pic/wedd1.jpg" class="w-100 rounded-4 shadow-4" alt="" />
+            </div>
+        </div>
+    </div>
+</section>

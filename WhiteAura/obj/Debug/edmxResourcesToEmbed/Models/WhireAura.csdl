@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WhiteAuraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Blog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorID" Type="Int32" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Blog__AuthorID__4BAC3F29" FromRole="Blog" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="ServiceID" Type="Int32" />
+    <Property Name="BookingDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Service" Relationship="Self.FK__Bookings__Servic__3F466844" FromRole="Bookings" ToRole="Services" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Bookings__UserID__3E52440B" FromRole="Bookings" ToRole="Users" />
+    <NavigationProperty Name="Payments" Relationship="Self.FK__Payments__Bookin__440B1D61" FromRole="Bookings" ToRole="Payments" />
+    <NavigationProperty Name="Profiles" Relationship="WhiteAuraModel.FK__Profile__Booking__5535A963" FromRole="Booking" ToRole="Profile" />
+    <NavigationProperty Name="Users" Relationship="WhiteAuraModel.FK__Users__BookingsI__5629CD9C" FromRole="Booking" ToRole="User" />
+    <Property Name="NumOfGuest" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ContactU">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK__ContactUs__UserI__4F7CD00D" FromRole="ContactUs" ToRole="Users" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Subject" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookingID" Type="Int32" />
+    <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+    <Property Name="PaymentMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Booking" Relationship="Self.FK__Payments__Bookin__440B1D61" FromRole="Payments" ToRole="Bookings" />
+  </EntityType>
+  <EntityType Name="Plan">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PlanName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="UserID" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="WhiteAuraModel.FK__Plans__UserID__5165187F" FromRole="Plan" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__Servic__3F466844" FromRole="Services" ToRole="Bookings" />
+    <Property Name="CategoryID" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="WhiteAuraModel.FK__Services__Catego__59063A47" FromRole="Service" ToRole="Category" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NumbeOfGuests" Type="Int32" />
+    <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img6" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="img7" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ConifrmPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Blogs" Relationship="Self.FK__Blog__AuthorID__4BAC3F29" FromRole="Users" ToRole="Blog" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__UserID__3E52440B" FromRole="Users" ToRole="Bookings" />
+    <NavigationProperty Name="ContactUs" Relationship="Self.FK__ContactUs__UserI__4F7CD00D" FromRole="Users" ToRole="ContactUs" />
+    <NavigationProperty Name="Plans" Relationship="WhiteAuraModel.FK__Plans__UserID__5165187F" FromRole="User" ToRole="Plan" />
+    <NavigationProperty Name="Profiles" Relationship="WhiteAuraModel.FK__Profile__UsersID__5441852A" FromRole="User" ToRole="Profile" />
+    <Property Name="BookingsID" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Booking" Relationship="WhiteAuraModel.FK__Users__BookingsI__5629CD9C" FromRole="User" ToRole="Booking" />
+  </EntityType>
+  <Association Name="FK__Blog__AuthorID__4BAC3F29">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Blog" Type="Self.Blog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Blog">
+        <PropertyRef Name="AuthorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__Servic__3F466844">
+    <End Role="Services" Type="Self.Service" Multiplicity="0..1" />
+    <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="ServiceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bookings__UserID__3E52440B">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payments__Bookin__440B1D61">
+    <End Role="Bookings" Type="Self.Booking" Multiplicity="0..1" />
+    <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bookings">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="BookingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ContactUs__UserI__4F7CD00D">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="ContactUs" Type="Self.ContactU" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ContactUs">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WhiteAuraEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Blogs" EntityType="Self.Blog" />
+    <EntitySet Name="Bookings" EntityType="Self.Booking" />
+    <EntitySet Name="ContactUs" EntityType="Self.ContactU" />
+    <EntitySet Name="Payments" EntityType="Self.Payment" />
+    <EntitySet Name="Plans" EntityType="Self.Plan" />
+    <EntitySet Name="Services" EntityType="Self.Service" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK__Blog__AuthorID__4BAC3F29" Association="Self.FK__Blog__AuthorID__4BAC3F29">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Blog" EntitySet="Blogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__Servic__3F466844" Association="Self.FK__Bookings__Servic__3F466844">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bookings__UserID__3E52440B" Association="Self.FK__Bookings__UserID__3E52440B">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payments__Bookin__440B1D61" Association="Self.FK__Payments__Bookin__440B1D61">
+      <End Role="Bookings" EntitySet="Bookings" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ContactUs__UserI__4F7CD00D" Association="Self.FK__ContactUs__UserI__4F7CD00D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ContactUs" EntitySet="ContactUs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Plans__UserID__5165187F" Association="WhiteAuraModel.FK__Plans__UserID__5165187F">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Plan" EntitySet="Plans" />
+    </AssociationSet>
+    <EntitySet Name="Profiles" EntityType="WhiteAuraModel.Profile" />
+    <AssociationSet Name="FK__Profile__Booking__5535A963" Association="WhiteAuraModel.FK__Profile__Booking__5535A963">
+      <End Role="Booking" EntitySet="Bookings" />
+      <End Role="Profile" EntitySet="Profiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Profile__UsersID__5441852A" Association="WhiteAuraModel.FK__Profile__UsersID__5441852A">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Profile" EntitySet="Profiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Users__BookingsI__5629CD9C" Association="WhiteAuraModel.FK__Users__BookingsI__5629CD9C">
+      <End Role="Booking" EntitySet="Bookings" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Categories" EntityType="WhiteAuraModel.Category" />
+    <AssociationSet Name="FK__Services__Catego__59063A47" Association="WhiteAuraModel.FK__Services__Catego__59063A47">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Service" EntitySet="Services" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK__Plans__UserID__5165187F">
+    <End Type="WhiteAuraModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="WhiteAuraModel.Plan" Role="Plan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Plan">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Profile">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UsersID" Type="Int32" />
+    <Property Name="BookingsID" Type="Int32" />
+    <NavigationProperty Name="Booking" Relationship="WhiteAuraModel.FK__Profile__Booking__5535A963" FromRole="Profile" ToRole="Booking" />
+    <NavigationProperty Name="User" Relationship="WhiteAuraModel.FK__Profile__UsersID__5441852A" FromRole="Profile" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__Profile__Booking__5535A963">
+    <End Type="WhiteAuraModel.Booking" Role="Booking" Multiplicity="0..1" />
+    <End Type="WhiteAuraModel.Profile" Role="Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Booking">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="BookingsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Profile__UsersID__5441852A">
+    <End Type="WhiteAuraModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="WhiteAuraModel.Profile" Role="Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="UsersID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Users__BookingsI__5629CD9C">
+    <End Type="WhiteAuraModel.Booking" Role="Booking" Multiplicity="0..1" />
+    <End Type="WhiteAuraModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Booking">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="BookingsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Services" Relationship="WhiteAuraModel.FK__Services__Catego__59063A47" FromRole="Category" ToRole="Service" />
+    <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK__Services__Catego__59063A47">
+    <End Type="WhiteAuraModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="WhiteAuraModel.Service" Role="Service" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Service">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

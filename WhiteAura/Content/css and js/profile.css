@@ -1,0 +1,53 @@
+
+.profile-section {
+    padding: 50px 0;
+    background-color: #f8f9fa;
+  }
+  .profile-section .profile-header {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .profile-section .profile-header img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+  }
+  .profile-section .profile-header h2 {
+    margin-bottom: 10px;
+  }
+  .profile-section .profile-header p {
+    color: #777;
+    font-size: 1.1em;
+  }
+  .profile-section .profile-details {
+    margin-bottom: 30px;
+  }
+  .profile-section .profile-details h3 {
+    margin-bottom: 20px;
+  }
+  .profile-section .profile-details ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .profile-section .profile-details ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .profile-section .profile-details ul li:last-child {
+    border-bottom: none;
+  }
+  .profile-section .booking-list h3 {
+    margin-bottom: 20px;
+  }
+  .profile-section .booking-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .profile-section .booking-list ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .profile-section .booking-list ul li:last-child {
+    border-bottom: none;
+  }

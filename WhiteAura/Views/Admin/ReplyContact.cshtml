@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Send Reply";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<br />
+<br />
+<div class="container mt-4">
+    <h2>Send Reply</h2>
+    <form id="admin-reply" method="post">
+        <!-- Hidden field to send the ID -->
+        <input type="hidden" name="id" value="@ViewBag.ContactId" />
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" value="@ViewBag.Email" readonly required>
+        </div>
+
+     
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Your reply" rows="5" required></textarea>
+        </div>
+
+        <p>
+            <input type="submit" value="Send Reply" class="btn btn-primary">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+        </p>
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('admin-reply').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        fetch('@Url.Action("SendReply")', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = '@Url.Action("GetContact")';
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'An error occurred while sending the email.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+    });
+</script>
+
+</script>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .btn {
+        margin: 5px 0;
+        padding: 10px 20px;
+    }
+
+    textarea.form-control {
+        resize: none;
+    }
+</style>

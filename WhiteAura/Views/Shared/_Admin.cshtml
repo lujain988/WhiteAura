@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>WhiteAura Dashboard - @ViewBag.Title</title>
+    <link href="~/Content/pic/log.svg" rel="icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- CSS Bundles -->
+    @Styles.Render("~/bundles/css") <!-- Core and other styles from BundleConfig -->
+    @Styles.Render("~/bundles/assets/css") <!-- Asset-specific styles bundle -->
+    <!-- Site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/vendors/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/vendors/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/vendors/images/favicon-16x16.png" />
+
+    <!-- External Styles (Font Awesome and Bootstrap Icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        .fa-book-reader:before {
+            content: "\f5da";
+            margin-left: 38px;
+        }
+
+        .text-primary {
+            color: black !important;
+        }
+
+        .left-side-bar {
+            background-color: white;
+        }
+
+        .bi-file-earmark-text::before {
+            content: "\f38b";
+            color: #212529;
+        }
+
+        .sidebar-menu .dropdown-toggle {
+            display: block;
+            padding: 14px 15px 14px 67px;
+            font-size: 15px;
+            color: #000;
+            font-weight: 500;
+            position: relative;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            -webkit-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+        }
+
+        .bi-house::before {
+            content: "\f425";
+            color: #000;
+        }
+
+        .sidebar-menu > ul > li > .dropdown-toggle.active {
+            background-color: rgba(236, 240, 244, .19);
+            color: rgb(63, 63, 63);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            width: 50%;
+            background: #353435;
+        }
+
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            height: 70px;
+            width: 50%;
+            background-color: #333232;
+        }
+
+        .toggle:hover,
+        .sidebar-menu .show > .dropdown-toggle {
+            background: rgba(236, 240, 244, .19);
+            color: #000;
+        }
+
+        .sidebar-menu .submenu li a {
+            display: block;
+            padding: 14px 15px 14px 60px;
+            font-size: 14px;
+            color: #000;
+            font-weight: 400;
+            border-radius: 8px;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar-menu .dropdown-toggle:hover,
+        .sidebar-menu .show > .dropdown-toggle {
+            background: rgba(236, 240, 244, .19);
+            color: #000;
+        }
+
+        .card-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            padding: 15px;
+        }
+
+        .widget-style3 {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+
+        .section-container {
+            margin-top: 20px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+
+        .stats-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .stats-card .icon {
+                font-size: 24px;
+                color: #007bff;
+                margin-bottom: 10px;
+            }
+
+            .stats-card .count {
+                font-size: 36px;
+                color: #333;
+                font-weight: 700;
+            }
+
+            .stats-card .label {
+                font-size: 14px;
+                color: #666;
+            }
+    </style>
+
+    <!-- Google Analytics and Tag Manager -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258" crossorigin="anonymous"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-GBZ3SGGX85');
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NXZMQSS');
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="menu-icon bi bi-list"></div>
+            <div class="search-toggle-icon bi bi-search" data-toggle="header_search"></div>
+        </div>
+        <div class="header-right">
+            <div class="dashboard-setting user-notification">
+                <div class="dropdown">
+                    <a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar" style="color: white;"></a>
+                </div>
+            </div>
+            <div class="user-info-dropdown">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                        <span class="user-name" style="color:white">
+                            @if (Session["AdminID"] != null)
+                            {
+                                @Session["AdminName"]// Display Admin Name from Session
+                            }
+                        </span>
+                    </a>
+                    @if (Session["AdminID"] != null) // Check if the admin is logged in
+                    {
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                            <a class="dropdown-item" href="@Url.Action("Logout", "Admin")">
+                                <i class="dw dw-logout"></i> Log Out
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="left-side-bar">
+        <div class="sidenav-header align-items-center" style="text-align: center;">
+            <a class="navbar-brand" href="javascript:void(0)">
+                <div style="text-align: center;">
+                    <img style="width: 100px;" src="~/Content/vendors/images/logo1.png" alt="description of image" class="me-3">
+                </div>
+            </a>
+        </div>
+        <div class="menu-block customscroll">
+            <div class="sidebar-menu">
+                <ul id="accordion-menu">
+                    <li class="dropdown">
+
+                        <a href="@Url.Action("Index", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-house"></span><span class="mtext">Home</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="@Url.Action("GetUser", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">User </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a > Users</a></li>
+                        </ul>*@
+                    </li>
+                    <li class="dropdown">
+                        <a href="@Url.Action("GetVendros", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">Vendors </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a> Vendors</a></li> href="javascript:;"
+
+
+                        </ul>*@
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="@Url.Action("GetCategory", "Admin")"" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">
+                                Services
+                            </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a >Services</a></li>
+
+                        </ul>*@
+
+                    </li>
+                    <li class="dropdown">
+                        <a href="@Url.Action("Blog", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">Blog </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a >Blog</a></li>
+                        </ul>*@
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="@Url.Action("GetBooking", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">Bookings </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a > Bookings</a></li>
+                        </ul>*@
+                    </li>
+                    <li class="dropdown">
+                        <a href="@Url.Action("GetTest", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">Testimonial  </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a > Testimonials </a></li>
+                        </ul>*@
+                    </li>
+                    <li class="dropdown">
+                        <a href="@Url.Action("GetContact", "Admin")" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-file-earmark-text"></span><span class="mtext">Contact </span>
+                        </a>
+                        @*<ul class="submenu">
+                            <li><a >Contacts</a></li>
+                        </ul>*@
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    @RenderBody()
+
+
+    <!-- JS Bundles -->
+    @Scripts.Render("~/bundles/js") <!-- Vendor and other scripts -->
+    @Scripts.Render("~/bundles/assets/js") <!-- Asset-specific scripts -->
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Styles", required: false)
+
+</body>
+</html>

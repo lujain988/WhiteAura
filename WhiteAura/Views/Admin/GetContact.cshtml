@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WhiteAura.Models.ContactU>
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <h1>Contact Us</h1>
+
+
+        <div class="table-container">
+            <table class="table table-bordered table-hover table-responsive-sm table-sm shadow-sm" id="contact-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Subject)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                        <th scope="col">Replied</th> <!-- New column for Replied status -->
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+                            <td>@(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("yyyy-MM-dd") : "N/A")</td>
+                            <td>
+                                @if (item.IsReplied)
+                                {
+                                    <span class="badge badge-success" style="font-size: 0.8rem;">Replied</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-secondary" style="font-size: 0.8rem;">Pending</span>
+                                }
+                            </td> <!-- Display Replied status with larger font -->
+                            <td>
+                                <div style="display: flex; gap: 5px;">
+                                    @Html.ActionLink("Details", "DetailsContact", new { id = item.ID }, new { @class = "btn btn-sm btn-info" })
+                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete(@item.ID)">Delete</button>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HTML for Pagination Controls -->
+        <div id="pagination-container" class="d-flex justify-content-center mt-4"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SweetAlert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            const itemsPerPage = 10; // Set how many items to show per page
+            const $rows = $('#contact-table tbody tr');
+            const totalItems = $rows.length;
+            const $paginationContainer = $('#pagination-container');
+
+            function showPage(page) {
+                $rows.hide();
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                $rows.slice(start, end).show();
+
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                $paginationContainer.empty();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const $link = $('<button>')
+                        .text(i)
+                        .addClass('page-link btn btn-outline-secondary')
+                        .attr('data-page', i)
+                        .prop('disabled', i === currentPage);
+
+                    $paginationContainer.append($link);
+                }
+            }
+
+            // Initial page setup
+            showPage(1);
+
+            // Pagination click event
+            $paginationContainer.on('click', '.page-link', function () {
+                const page = $(this).data('page');
+                showPage(page);
+            });
+        });
+
+        function confirmDelete(id) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this contact!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteContact")',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function(response) {
+                            if (response.success) {
+                                swal("Poof! Your contact has been deleted!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload(); // Reload the page to see the changes
+                                });
+                            } else {
+                                swal("Error!", response.message, "error");
+                            }
+                        },
+                        error: function() {
+                            swal("Error!", "An error occurred while deleting the contact.", "error");
+                        }
+                    });
+                } else {
+                    swal("Your contact is safe!");
+                }
+            });
+        }
+    </script>
+}

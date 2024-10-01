@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WhiteAuraModelStoreContainer" CdmEntityContainer="WhiteAuraEntities">
+    <EntitySetMapping Name="Blogs">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Blog">
+        <MappingFragment StoreEntitySet="Blog">
+          <ScalarProperty Name="BlogCont" ColumnName="BlogCont" />
+          <ScalarProperty Name="img4" ColumnName="img4" />
+          <ScalarProperty Name="img3" ColumnName="img3" />
+          <ScalarProperty Name="img2" ColumnName="img2" />
+          <ScalarProperty Name="img1" ColumnName="img1" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bookings">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Booking">
+        <MappingFragment StoreEntitySet="Bookings">
+          <ScalarProperty Name="ReservedHours" ColumnName="ReservedHours" />
+          <ScalarProperty Name="PaymentDeadline" ColumnName="PaymentDeadline" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="NumOfGuest" ColumnName="NumOfGuest" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="ConfirmedAt" ColumnName="ConfirmedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConfirmationDates">
+      <EntityTypeMapping TypeName="WhiteAuraModel.ConfirmationDate">
+        <MappingFragment StoreEntitySet="ConfirmationDate">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="BookingsID" ColumnName="BookingsID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ContactUs">
+      <EntityTypeMapping TypeName="WhiteAuraModel.ContactU">
+        <MappingFragment StoreEntitySet="ContactUs">
+          <ScalarProperty Name="IsReplied" ColumnName="IsReplied" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Payment">
+        <MappingFragment StoreEntitySet="Payments">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Plans">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Plan">
+        <MappingFragment StoreEntitySet="Plans">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profiles">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Profile">
+        <MappingFragment StoreEntitySet="Profile">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UsersID" ColumnName="UsersID" />
+          <ScalarProperty Name="BookingsID" ColumnName="BookingsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Service">
+        <MappingFragment StoreEntitySet="Services">
+          <ScalarProperty Name="LocationPlace" ColumnName="LocationPlace" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="NumbeOfGuests" ColumnName="NumbeOfGuests" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="img1" ColumnName="img1" />
+          <ScalarProperty Name="img2" ColumnName="img2" />
+          <ScalarProperty Name="img3" ColumnName="img3" />
+          <ScalarProperty Name="img4" ColumnName="img4" />
+          <ScalarProperty Name="img5" ColumnName="img5" />
+          <ScalarProperty Name="img6" ColumnName="img6" />
+          <ScalarProperty Name="img7" ColumnName="img7" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="WhiteAuraModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="HasSkippedTestimonial" ColumnName="HasSkippedTestimonial" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ConifrmPassword" ColumnName="ConifrmPassword" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Testimonials">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Testimonial">
+        <MappingFragment StoreEntitySet="Testimonials">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TestimonialSubmitted" ColumnName="TestimonialSubmitted" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="WhiteAuraModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

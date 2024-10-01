@@ -1,0 +1,197 @@
+﻿@model WhiteAura.Models.Category
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<br />
+<br />
+<div class="container">
+    <h2>Add New Category</h2>
+
+    @using (Html.BeginForm("AddCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-container">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CategoryName, new { @class = "form-label" })
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image, new { @class = "form-label" })
+                <input type="file" name="imageFile" class="form-control" />
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "form-label" })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Details, new { @class = "form-label" })
+                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-actions">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+
+    <div class="back-link">
+        @Html.ActionLink("Back to List", "GetCategory", null, new { @class = "btn btn-secondary" })
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px; /* Increase this value to make the form larger */
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 26px;
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    .form-container {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        padding: 35px; /* Increased padding for more spacious form */
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Increase spacing between form fields */
+    }
+
+    .form-label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px; /* Increase padding for larger input fields */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px; /* Increase font size for better readability */
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 24px; /* Larger buttons */
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .form-control {
+        height: calc(1.5em + 1.75rem + 2px);
+    }
+</style>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include SweetAlert CSS and JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var form = $(this);
+            var formData = new FormData(this); // Create FormData to handle file uploads
+
+            $.ajax({
+                url: form.attr('action'), // Use the form's action attribute
+                type: form.attr('method'), // Use the form's method attribute
+                data: formData,
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Prevent jQuery from setting the content type
+                success: function (response) {
+                    console.log(response); // Log the response for debugging
+                    if (response.success) {
+                        // Show success message
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '@Url.Action("GetCategory", "Admin")'; // Redirect to GetCategory
+                            }
+                        });
+                    } else {
+                        // Show error message
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle AJAX error
+                    console.error(xhr.responseText); // Log the complete error
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while submitting the form: ' + xhr.responseText,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+    });
+</script>

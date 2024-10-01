@@ -1,0 +1,208 @@
+﻿
+@model IEnumerable<WhiteAura.Models.Category>
+
+
+
+<!-- bootstrap css -->
+<link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+<!-- style css -->
+<link rel="stylesheet" href="~/Content/css/style.css" />
+<!-- Responsive-->
+<link rel="stylesheet" href="~/Content/css/responsive.css" />
+<!-- fevicon -->
+<link rel="icon" href="~/Content/images/fevicon.png" type="image/gif" />
+<!-- Tweaks for older IEs-->
+
+<link rel="stylesheet" href="~/Content/css/nice-select.css" />
+<link rel="stylesheet" href="~/Content/css/bootstrap-datepicker.min.css" />
+<link rel="stylesheet" href="~/Content/css/niceCountryInput.css" />
+<style>
+    /* Custom styles for white theme with black font */
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .header,
+    .footer,
+    .packages_box,
+    .about_text {
+        background-color: #fff;
+        color: #000;
+    }
+
+    a {
+        color: #000;
+    }
+
+        a:hover {
+            color: #000;
+        }
+
+    .read_more {
+        background: #000;
+        color: #fff;
+    }
+
+        .read_more:hover {
+            background: #fff;
+            color: #000;
+        }
+
+    .contactus {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    .send_btn {
+        background-color: #000;
+        color: #fff;
+        border: none;
+    }
+
+        .send_btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+    .titlepage h3 {
+        color: #000;
+    }
+
+    label {
+        color: #000;
+    }
+
+    select.contactus,
+    input.contactus {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+
+    .titlepage h2::before {
+        background: #333;
+    }
+
+    .about_text.text_align_center {
+        background: rgba(92, 90, 90, 0.1);
+        backdrop-filter: blur(10px);
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing .btn-primary {
+        background-color: #000;
+        border-color: #000;
+        color: #fff;
+    }
+
+        .pricing .btn-primary:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+    .pricing .display-3 {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .pricing .list-group-item svg {
+        fill: #000;
+    }
+
+    .pricing .list-group-item .text-danger {
+        fill: #000;
+    }
+
+    .our_packages {
+        border-top: rgba(255, 255, 255, 0.15) solid 125px;
+    }
+
+    /* Ensure the header image covers the entire header */
+    .header-content {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+    }
+
+        .header-content img.header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the container */
+        }
+
+    .header-form {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        position: relative;
+        height: 50vh !important; /* Increase header height */
+        overflow: hidden;
+        background-color: #fff;
+    }
+</style>
+
+
+<link rel="stylesheet" href="~/Content/css and js/venustyle.css" />
+
+@section HeaderContent {
+    <div class="header-content">
+        <img src="~/Content/pic/booking.jpg" alt="Bride" class="header-image" />
+        <div class="about-section">
+            <div class="contact-header">
+                <h1 style="font-size: 70px; color: white">Services</h1>
+                <p style="color: rgb(255, 255, 255); text-align: center">
+                    to plan your wedding !
+                </p>
+            </div>
+        </div>
+    </div> }
+<!-- Packages Section -->
+<div class="packages">
+    <div class="container">
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-6">
+                    <div class="packages_box" data-aos="fade-right">
+                        <figure>
+                            <img src="@Url.Content(category.Image)" alt="@category.CategoryName" />
+                        </figure>
+                        <div class="tuscany">
+                            <div class="tusc text_align_left">
+                                <div class="place">
+                                    <h3>@category.CategoryName</h3>
+                                </div>
+                            </div>
+                            <p>@category.Description</p>
+                            <div class="tusc">
+                                <a class="read_more"
+                                   href="@Url.Action(category.ID == 1 ? "Placese" : "Planner", "Services", new { id = category.ID })">
+                                    See More
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

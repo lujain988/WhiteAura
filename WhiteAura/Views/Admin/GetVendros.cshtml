@@ -1,0 +1,150 @@
+﻿@model IEnumerable<WhiteAura.Models.Service>
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <h1>All Vendors</h1>
+
+        <p>
+            @Html.ActionLink("Create New Vendor", "CreateService", null, new { @class = "btn btn-primary" })
+        </p>
+
+        @using (Html.BeginForm("GetVendros", "Admin", FormMethod.Get, new { id = "searchForm" }))
+        {
+            <div class="input-group rounded mb-3" style="max-width: 400px; margin: 0 auto;">
+                <input type="search" name="searchTerm" class="form-control rounded" placeholder="Search by service name, category, or type" aria-label="Search" aria-describedby="search-addon" value="@Request.QueryString["searchTerm"]" style="border: 1px solid #ced4da;" />
+                <span class="input-group-text border-0" id="search-addon" style="cursor: pointer; background-color: #007bff; color: white;" onclick="document.getElementById('searchForm').submit();">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+        }
+
+        <div class="table-container">
+            <table id="vendors-table" class="table table-bordered table-hover table-responsive-sm table-sm shadow-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Service Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="vendor-row">
+                            <td>@Html.DisplayFor(modelItem => item.ServiceName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>@(@item.Price.HasValue ? "$" + item.Price.Value.ToString("N2") : "N/A")</td>
+                            <td>
+                                @Html.ActionLink("Details", "DetailsVendors", new { id = item.ID }, new { @class = "btn btn-sm btn-info" }) |
+                                @Html.ActionLink("Edit", "EditServiceVendor", new { id = item.ID }, new { @class = "btn btn-sm btn-primary" }) |
+                                <button class="btn btn-sm btn-danger delete-service" data-id="@item.ID">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HTML for Pagination Controls -->
+        <div id="pagination-container" class="d-flex justify-content-center mt-4"></div>
+    </div>
+</div>
+<br />
+<br />
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SweetAlert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            const itemsPerPage = 10;
+            const $rows = $('.vendor-row');
+            let totalItems = $rows.length;
+            const $paginationContainer = $('#pagination-container');
+
+            function showPage(page) {
+                $rows.hide();
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                $rows.slice(start, end).show();
+
+                updatePagination(page);
+            }
+
+            function updatePagination(currentPage) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                $paginationContainer.empty();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const $link = $('<button>')
+                        .text(i)
+                        .addClass('page-link btn btn-outline-secondary')
+                        .attr('data-page', i)
+                        .prop('disabled', i === currentPage);
+
+                    $paginationContainer.append($link);
+                }
+            }
+
+            // Initial page setup
+            showPage(1);
+
+            // Pagination click event
+            $paginationContainer.on('click', '.page-link', function () {
+                const page = $(this).data('page');
+                showPage(page);
+            });
+
+            // Delete service functionality
+            $('.delete-service').click(function () {
+                var serviceId = $(this).data('id');
+                var button = $(this);
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this service!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: '@Url.Action("DeleteService", "Admin")',
+                            type: 'POST',
+                            data: { id: serviceId },
+                            success: function (response) {
+                                if (response.success) {
+                                    swal("Poof! Your service has been deleted!", {
+                                        icon: "success",
+                                    }).then(() => {
+                                        // Remove the row and update total items
+                                        button.closest('tr').remove();
+                                        totalItems--;
+                                        showPage(1); // Show the first page after deletion
+                                    });
+                                } else {
+                                    swal("Error!", response.message, "error");
+                                }
+                            },
+                            error: function () {
+                                swal("Error!", "An unexpected error occurred.", "error");
+                            }
+                        });
+                    } else {
+                        swal("Your service is safe!");
+                    }
+                });
+            });
+        });
+    </script>
+}

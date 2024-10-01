@@ -1,0 +1,308 @@
+﻿@model WhiteAura.DTOs.BookingViewModel
+
+<!-- Include CSS files for Bootstrap and custom styles -->
+<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+<link rel="stylesheet" href="~/Content/css/style.css" />
+<link rel="stylesheet" href="~/Content/css/responsive.css" />
+<link rel="stylesheet" href="~/Content/css/venustyle.css" />
+<link rel="icon" href="~/Content/images/fevicon.png" type="image/png" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f8f8f8;
+    }
+
+    #booking-form-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .form-control {
+        margin-bottom: 20px;
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn {
+        margin-top: 20px;
+        border-radius: 8px;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        background-color: black;
+        color: white;
+    }
+
+        .btn:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+    .header-content {
+        position: relative;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .header-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .contact-header {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+        background: none;
+        border-radius: 8px;
+    }
+
+        .contact-header h1 {
+            font-size: 60px;
+            margin: 0;
+        }
+
+        .contact-header p {
+            font-size: 18px;
+            margin: 10px 0 0;
+        }
+
+    header {
+        height: 50vh;
+    }
+
+    .time-options {
+        display: flex;
+        gap: 20px; /* Space between boxes */
+        margin-bottom: 20px; /* Space below the time options */
+    }
+
+    .time-box {
+        border: 2px solid #ccc; /* Border around each box */
+        border-radius: 8px; /* Rounded corners */
+        padding: 15px; /* Padding inside the box */
+        text-align: center; /* Center the text */
+        cursor: pointer; /* Cursor changes to pointer on hover */
+        transition: border-color 0.3s; /* Smooth transition for hover effect */
+    }
+
+        .time-box:hover {
+            border-color: black; /* Change border color on hover */
+        }
+
+    .time-input {
+        display: none; /* Hide the radio button */
+    }
+
+    .time-label {
+        cursor: pointer; /* Ensure label is clickable */
+        display: block; /* Make label a block element */
+    }
+
+    /* Style to show when selected */
+    .time-input:checked + .time-label {
+        background-color: #f0f0f0; /* Background color for selected option */
+        border: 2px solid black; /* Change border for selected option */
+        font-weight: bold; /* Bold text for selected option */
+    }
+
+    .fully-booked {
+        background-color: rgba(255, 0, 0, 0.7); /* Red for fully booked days */
+        color: white; /* White text for better contrast */
+    }
+
+    .partially-booked {
+        background-color: rgba(255, 0, 0, 0.3); /* Light red for partially booked days */
+    }
+
+    .reserved {
+        opacity: 0.5; /* Dim the reserved time slots */
+        pointer-events: none; /* Disable interaction */
+    }
+
+    .disabled {
+        pointer-events: none; /* Prevent interaction */
+        color: red; /* Change text color to red */
+    }
+
+    .time-box.reserved {
+        opacity: 0.5; /* Optionally reduce opacity for a visual effect */
+    }
+</style>
+
+@section HeaderContent {
+    <div class="header-content">
+        <img src="~/Content/pic/booking.jpg" alt="Bride" class="header-image" />
+        <div class="contact-header">
+            <h1 style="color:white">Booking</h1>
+            <p>to book your wedding place!</p>
+        </div>
+    </div>
+}
+
+<div class="container" id="booking-form-container">
+    <h1>Book Your Wedding Place!</h1>
+
+    <form id="booking-form" method="post" action="@Url.Action("ConfirmBooking", "Services")">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ServiceID" value="@Model.ServiceID" />
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="FullName" class="form-control" value="@Model.FullName" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" required />
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="Phone" class="form-control" value="@Model.Phone" required />
+
+        <label for="date">Select Your Wedding Date:</label>
+        <input type="date" id="date" name="WeddingDate" class="form-control" value="@(Model.WeddingDate.HasValue ? Model.WeddingDate.Value : "")" required />
+
+        <div class="time-options">
+            <div class="time-box">
+                <input type="radio" id="time1" name="ReservedHours" value="17:00" class="time-input">
+                <label for="time1" class="time-label">5:00 PM</label>
+            </div>
+            <div class="time-box">
+                <input type="radio" id="time2" name="ReservedHours" value="19:30" class="time-input">
+                <label for="time2" class="time-label">7:30 PM</label>
+            </div>
+            <div class="time-box">
+                <input type="radio" id="time3" name="ReservedHours" value="22:00" class="time-input">
+                <label for="time3" class="time-label">10:00 PM</label>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <label for="guests">Number of Guests:</label>
+        <input type="number" id="guests" name="NumberOfGuests" class="form-control" min="1" max="500" value="@Model.NumberOfGuests" required />
+
+        <label for="place">Selected Place:</label>
+        <input type="text" id="place" name="Place" class="form-control" value="@Model.Place" readonly />
+
+        <button type="submit" class="btn btn-block">
+            Book
+        </button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+const unavailableDates = @Html.Raw(Json.Encode(ViewBag.UnavailableHoursByDate));
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateInput = document.getElementById('date');
+        const timeOptions = document.querySelectorAll('input[name="ReservedHours"]');
+
+        // Function to update the reserved hours for the selected date
+        function updateReservedHours(selectedDate) {
+            // Clear previous styling (removing 'reserved' and 'disabled' classes)
+            timeOptions.forEach(option => {
+                option.parentNode.classList.remove('reserved');
+                option.parentNode.classList.remove('disabled');
+            });
+
+            // Check for reserved hours for the selected date
+            const reservedHours = unavailableDates[selectedDate];
+            console.log("Reserved Hours for Date: ", reservedHours);  // Debugging reserved hours
+
+            if (reservedHours) {
+                // Disable the reserved hours
+                reservedHours.forEach(hourObj => {
+                    const hours = String(hourObj.Hours).padStart(2, '0'); // Ensure two digits for hours
+                    const minutes = String(hourObj.Minutes).padStart(2, '0'); // Ensure two digits for minutes
+                    const hourString = `${hours}:${minutes}`;
+                    console.log("Checking hour: ", hourString); // Debugging each hour being checked
+
+                    // Loop through the time options and disable the reserved ones
+                    timeOptions.forEach(option => {
+                        if (option.value === hourString) {
+                            option.parentNode.classList.add('reserved');
+                            option.parentNode.classList.add('disabled'); // Disable the specific hour
+                            console.log("Disabled hour: ", option.value); // Debugging disabled hours
+                        }
+                    });
+                });
+            }
+        }
+
+        // Initialize the flatpickr date picker without a default date
+        const flatpickrInstance = flatpickr("#date", {
+              dateFormat: "m/d/Y",
+            defaultDate: null,  // No default date selection on calendar initialization
+            disable: Object.keys(unavailableDates).map(date => {
+                const reservedHours = unavailableDates[date];
+                // Disable the date only if all 3 time slots are reserved
+                return reservedHours && reservedHours.length === 3 ? new Date(date) : null;
+            }).filter(date => date !== null),
+            onDayCreate: function (dObj, dStr, instance) {
+                const date = dStr; // Date string in 'YYYY-MM-DD' format
+                const reservedHours = unavailableDates[date];
+
+                // Highlight the date if it's fully booked
+                if (reservedHours && reservedHours.length === 3) {
+                    instance.days.forEach((day) => {
+                        if (day.dateObj.toISOString().slice(0, 10) === date) {
+                            day.element.classList.add("fully-booked");
+                        }
+                    });
+                } else if (reservedHours && (reservedHours.length === 2 || reservedHours.length === 1)) {
+                    // Highlight the date as partially booked
+                    instance.days.forEach((day) => {
+                        if (day.dateObj.toISOString().slice(0, 10) === date) {
+                            day.element.classList.add("partially-booked");
+                        }
+                    });
+                }
+            },
+            onChange: function (selectedDates) {
+                const selectedDate = selectedDates[0];
+                if (selectedDate) {
+                    const dateString = selectedDate.toISOString().slice(0, 10);
+                    updateReservedHours(dateString); // Update reserved hours when a date is selected
+                }
+            }
+        });
+
+        // Optionally, you can remove this part, as you don't want any date to be automatically selected
+        
+        const initialDate = dateInput.value || flatpickrInstance.selectedDates[0]?.toISOString().slice(0, 10);
+        if (initialDate) {
+            updateReservedHours(initialDate); // Update reserved hours on load
+        }
+        
+    });
+
+</script>
+
