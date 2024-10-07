@@ -266,8 +266,7 @@
                                    href="@Url.Action("Details", "Services", new { id = service.ID })">
                                     See More
                                 </a>
-                                <a class="read_more"
-                                   href="@Url.Action("CheckLogin", "LoginandSignup", new { id = service.ID })">
+                                <a class="read_more" href="javascript:void(0);" onclick="showSweetAlertAndRedirect('@Url.Action("CheckLogin", "LoginandSignup", new { id = service.ID })')">
                                     Book Now
                                 </a>
 
@@ -428,5 +427,37 @@
 </script>
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 -->
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    function showSweetAlertAndRedirect(url) {
+        // Show SweetAlert before redirecting
+        Swal.fire({
+            title: 'Redirecting...',
+            text: 'You will be redirected to the login page.',
+            icon: 'info',
+            confirmButtonText: 'OK',
+            width: '400px', // Set a smaller width of the alert
+            padding: '1em', // Set padding
+            customClass: {
+                popup: 'swal-popup-small' // Add a custom class for additional styling
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the specified URL
+                window.location.href = url;
+            }
+        });
+    }
+</script>
+
+<style>
+    /* Custom styles for the SweetAlert */
+    .swal-popup-small {
+        font-size: 1.2em; /* Decrease font size */
+    }
+</style>

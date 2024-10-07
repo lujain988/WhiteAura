@@ -148,18 +148,17 @@
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
     #imagee {
         height: 471px;
     }
+
     .header-content {
-     
         height: 50vh;
-  
     }
+
     header {
-   
         height: 63vh;
- 
     }
 </style>
 
@@ -196,8 +195,7 @@
                     <li><strong>Number of Guests:</strong> <span id="venue-guests">@Model.NumbeOfGuests</span></li>
                     <li><strong>Location:</strong> <span id="venue-location">@Model.Location</span></li>
                 </ul>
-                <a class="read_more"
-                   href="@Url.Action("CheckLogin", "LoginandSignup", new { id = Model.ID })">
+                <a class="read_more" href="javascript:void(0);" onclick="showSweetAlertAndRedirect('@Url.Action("CheckLogin", "LoginandSignup", new { id = Model.ID })')">
                     Book Now
                 </a>
             </aside>
@@ -214,22 +212,22 @@
                 </p>
                 <div class="responsive-container-block imgContainer" id="venue-album">
                     @*@if (!string.IsNullOrEmpty(Model.img1))
-                    {
-                        <div class="project project1">
-                            <img class="smallImage" style=" height: 52%; margin-top: 67%;" src="@Url.Content(Model.img1)" alt="Gallery Image 1">
-                            <div class="overlay">
-                                <div class="overlay-inner">
-                                    <button class="close">Close X</button>
-                                    <div class="hdImgs">
-                                        <img class="squareImg" src="@Url.Content(Model.img1)" alt="Gallery Image 1">
+                        {
+                            <div class="project project1">
+                                <img class="smallImage" style=" height: 52%; margin-top: 67%;" src="@Url.Content(Model.img1)" alt="Gallery Image 1">
+                                <div class="overlay">
+                                    <div class="overlay-inner">
+                                        <button class="close">Close X</button>
+                                        <div class="hdImgs">
+                                            <img class="squareImg" src="@Url.Content(Model.img1)" alt="Gallery Image 1">
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="btn-box">
+                                    <button class="btn">View</button>
+                                </div>
                             </div>
-                            <div class="btn-box">
-                                <button class="btn">View</button>
-                            </div>
-                        </div>
-                    }*@
+                        }*@
                     @if (!string.IsNullOrEmpty(Model.img2))
                     {
                         <div class="project project2">
@@ -318,7 +316,7 @@
                     @if (!string.IsNullOrEmpty(Model.img7))
                     {
                         <div class="project project7">
-                            <img class="smallImage"  id="imagee" src="@Url.Content(Model.img7)" alt="Gallery Image 7">
+                            <img class="smallImage" id="imagee" src="@Url.Content(Model.img7)" alt="Gallery Image 7">
                             <div class="overlay">
                                 <div class="overlay-inner">
                                     <button class="close">Close X</button>
@@ -350,7 +348,7 @@
 <script src="~/Content/js/jquery.min.js"></script>
 <script src="~/Content/js/jquery-3.0.0.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    @*<script src="css and js/details.js"></script>*@
+@*<script src="css and js/details.js"></script>*@
 <script>
 
 
@@ -367,3 +365,39 @@
     });
 
 </script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+<script>
+    function showSweetAlertAndRedirect(url) {
+        // Show SweetAlert before redirecting
+        Swal.fire({
+            title: 'Redirecting...',
+            text: 'You will be redirected to the login page.',
+            icon: 'info',
+            confirmButtonText: 'OK',
+            width: '400px', // Set a smaller width of the alert
+            padding: '1em', // Set padding
+            customClass: {
+                popup: 'swal-popup-small' // Add a custom class for additional styling
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the specified URL
+                window.location.href = url;
+            }
+        });
+    }
+</script>
+
+<style>
+    /* Custom styles for the SweetAlert */
+    .swal-popup-small {
+        font-size: 1.2em; /* Decrease font size */
+    }
+</style>
