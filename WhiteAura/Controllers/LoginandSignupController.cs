@@ -44,7 +44,6 @@ namespace WhiteAura.Controllers
                         Session["UserEmail"] = existingUser.Email;
                         Session["UserID"] = existingUser.ID;
 
-                        // Check for bookings and if the booking date has passed
                         var userId = existingUser.ID;
                         var pastBookings = db.Bookings
                             .Where(b => b.UserID == userId && b.BookingDate < DateTime.Now && !b.Testimonials.Any(t => t.UserId == userId))
@@ -54,10 +53,16 @@ namespace WhiteAura.Controllers
                         if (pastBookings.Any())
                         {
                             TempData["ShowTestimonialPopup"] = true;
-                            TempData["PastBookingId"] = pastBookings.Select(b => b.ID).ToList(); // Store past booking IDs if needed
+                            TempData["PastBookingId"] = pastBookings.Select(b => b.ID).ToList();
                         }
 
-                        return RedirectToAction("Index", "Home");
+                        if (TempData["ReturnUrl"] != null)
+                        {
+                            string returnUrl = TempData["ReturnUrl"].ToString();
+                            return Redirect(returnUrl); 
+                        }
+
+                        return RedirectToAction("Index", "Home"); 
                     }
                     else
                     {
@@ -212,14 +217,17 @@ namespace WhiteAura.Controllers
 
             if (!isLoggedIn)
             {
+                TempData["ReturnUrl"] = Url.Action("Book", "Services", new { id = id });
                 TempData["ShowAlert"] = true;
                 TempData["AlertMessage"] = "You need to log in to book a service.";
                 return RedirectToAction("Login", "LoginandSignup");
             }
 
             // Proceed with booking logic or service details
-            return RedirectToAction("Book", "Services", new { id = id }); // Adjust this as necessary
+            return RedirectToAction("Book", "Services", new { id = id });
         }
+
+
 
 
 

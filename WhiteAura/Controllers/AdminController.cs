@@ -32,7 +32,7 @@ namespace WhiteAura.Controllers
             var payment = db.Payments.ToList();
             var totalBookings = bookings.Count;
             var totalRevenue = payment.Where(b=>b.Amount.HasValue)
-                                       .Sum(b => b.Amount.Value * 0.5M);
+                                       .Sum(b => b.Amount.Value );
 
             var monthlyBookings = bookings
                 .GroupBy(b => b.BookingDate.HasValue ? b.BookingDate.Value.Month : 0)
@@ -45,7 +45,7 @@ namespace WhiteAura.Controllers
             var monthlyRevenue = payment
                 .Where(b => b.Amount.HasValue)
                 .GroupBy(b => b.Booking.BookingDate.HasValue ? b.Booking.BookingDate.Value.Month : 0)
-                .Select(g => new { Month = g.Key, Total = g.Sum(b => b.Amount.Value * 0.5M) })
+                .Select(g => new { Month = g.Key, Total = g.Sum(b => b.Amount.Value) })
                 .OrderBy(m => m.Month)
                 .ToList()
                 .Cast<dynamic>()

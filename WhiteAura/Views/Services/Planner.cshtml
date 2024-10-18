@@ -210,6 +210,7 @@
                     <div class="col-md-12">
                         <div class="titlepage text_align_center">
                             <h2>@service.Category.CategoryName</h2>
+                            
                         </div>
                     </div>
                 </div>
@@ -267,9 +268,21 @@
                                    href="@Url.Action( "Details" , "Services", new { id = service.ID })">
                                     See More
                                 </a>
-                                <a class="read_more" href="javascript:void(0);" onclick="showSweetAlertAndRedirect('@Url.Action("CheckLogin", "LoginandSignup", new { id = service.ID })')">
-                                    Book Now
-                                </a>
+                                @if (Session["UserID"] == null)
+                                {
+                                    <!-- If the user is not logged in, show the SweetAlert -->
+                                    <a class="read_more" href="javascript:void(0);" onclick="showSweetAlertAndRedirect('@Url.Action("CheckLogin", "LoginandSignup", new { id = service.ID })')">
+                                        Book Now
+                                    </a>
+                                }
+                                else
+                                {
+                                    <!-- If the user is logged in, directly link to the booking page -->
+                                    <a class="read_more" href="@Url.Action("Book", "Services", new { id = service.ID })">
+                                        Book Now
+                                    </a>
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -541,16 +554,15 @@
 
 <script>
     function showSweetAlertAndRedirect(url) {
-        // Show SweetAlert before redirecting
         Swal.fire({
             title: 'Redirecting...',
             text: 'You will be redirected to the login page.',
             icon: 'info',
             confirmButtonText: 'OK',
-            width: '400px', // Set a smaller width of the alert
-            padding: '1em', // Set padding
+            width: '400px',
+            padding: '1em',
             customClass: {
-                popup: 'swal-popup-small' // Add a custom class for additional styling
+                popup: 'swal-popup-small'
             }
         }).then((result) => {
             if (result.isConfirmed) {
@@ -560,6 +572,7 @@
         });
     }
 </script>
+
 
 <style>
     /* Custom styles for the SweetAlert */

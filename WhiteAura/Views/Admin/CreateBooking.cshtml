@@ -56,7 +56,7 @@
                 @Html.LabelFor(model => model.Status, new { @class = "form-label" })
                 @Html.DropDownListFor(model => model.Status,
                     new SelectList(new[] {
-                        new { Value = "Pending", Text = "Pending" },
+                        //new { Value = "Pending", Text = "Pending" },
                         new { Value = "Confirmed", Text = "Confirmed" },
                     }, "Value", "Text"), "Select Status", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
@@ -68,8 +68,8 @@
                     @Html.RadioButtonFor(model => model.IsPaid, true, new { id = "paid" })
                     <label for="paid">Paid</label>
 
-                    @Html.RadioButtonFor(model => model.IsPaid, false, new { id = "notPaid" })
-                    <label for="notPaid">Not Paid</label>
+                    @*@Html.RadioButtonFor(model => model.IsPaid, false, new { id = "notPaid" })
+                    <label for="notPaid">Not Paid</label>*@
                 </div>
                 @Html.ValidationMessageFor(model => model.IsPaid, "", new { @class = "text-danger" })
             </div>

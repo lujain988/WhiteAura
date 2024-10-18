@@ -14,6 +14,9 @@
 <!-- fevicon -->
 <link rel="icon" href="~/Content/images/fevicon.png" type="image/gif" />
 <!-- Tweaks for older IEs-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
 <style>
     /* Custom styles for white theme with black font */
@@ -184,6 +187,32 @@
         <div class="col-md-8">
             <img id="venue-photo" class="venue-photo" src="@Url.Content(Model.Image)" alt="Venue Photo" />
             <p id="venue-description">@Model.Description</p>
+            <br />
+            <h4>For more details, check out the links below:</h4>
+            <ul style="list-style-type: none; padding: 0; display: flex; gap: 15px;">
+                <li>
+                    <a href="https://www.facebook.com/"
+                       class="btn btn-outline-light bsb-btn-circle"
+                       style="display: inline-block; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); transition: background-color 0.3s; color: black;">
+                        <i class="fab fa-facebook-f" style="font-size: 18px;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/"
+                       class="btn btn-outline-light bsb-btn-circle"
+                       style="display: inline-block; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); transition: background-color 0.3s; color: black;">
+                        <i class="fab fa-instagram" style="font-size: 18px;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/"
+                       class="btn btn-outline-light bsb-btn-circle"
+                       style="display: inline-block; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); transition: background-color 0.3s; color: black;">
+                        <i class="fab fa-youtube" style="font-size: 18px;"></i>
+                    </a>
+                </li>
+            </ul>
+
         </div>
         <div class="col-md-4">
             <aside class="venue-info">
@@ -195,9 +224,21 @@
                     <li><strong>Number of Guests:</strong> <span id="venue-guests">@Model.NumbeOfGuests</span></li>
                     <li><strong>Location:</strong> <span id="venue-location">@Model.Location</span></li>
                 </ul>
-                <a class="read_more" href="javascript:void(0);" onclick="showSweetAlertAndRedirect('@Url.Action("CheckLogin", "LoginandSignup", new { id = Model.ID })')">
-                    Book Now
-                </a>
+                @if (Session["UserID"] == null)
+                {
+                    <!-- If the user is not logged in, show the SweetAlert -->
+                    <a class="read_more" href="javascript:void(0);" onclick="showSweetAlertAndRedirect('@Url.Action("CheckLogin", "LoginandSignup", new { id = Model.ID })')">
+                        Book Now
+                    </a>
+                }
+                else
+                {
+                    <!-- If the user is logged in, directly link to the booking page -->
+                    <a class="read_more" href="@Url.Action("Book", "Services", new { id = Model.ID })">
+                        Book Now
+                    </a>
+                }
+
             </aside>
         </div>
     </div>
@@ -375,16 +416,15 @@
 
 <script>
     function showSweetAlertAndRedirect(url) {
-        // Show SweetAlert before redirecting
         Swal.fire({
             title: 'Redirecting...',
             text: 'You will be redirected to the login page.',
             icon: 'info',
             confirmButtonText: 'OK',
-            width: '400px', // Set a smaller width of the alert
-            padding: '1em', // Set padding
+            width: '400px',
+            padding: '1em',
             customClass: {
-                popup: 'swal-popup-small' // Add a custom class for additional styling
+                popup: 'swal-popup-small'
             }
         }).then((result) => {
             if (result.isConfirmed) {
@@ -394,6 +434,7 @@
         });
     }
 </script>
+
 
 <style>
     /* Custom styles for the SweetAlert */
