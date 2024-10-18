@@ -259,8 +259,9 @@ const unavailableDates = @Html.Raw(Json.Encode(ViewBag.UnavailableHoursByDate));
 
         // Initialize the flatpickr date picker without a default date
         const flatpickrInstance = flatpickr("#date", {
-              dateFormat: "m/d/Y",
+            dateFormat: "m/d/Y",
             defaultDate: null,  // No default date selection on calendar initialization
+            minDate: "today",  // Prevent selection of past dates
             disable: Object.keys(unavailableDates).map(date => {
                 const reservedHours = unavailableDates[date];
                 // Disable the date only if all 3 time slots are reserved
@@ -294,6 +295,7 @@ const unavailableDates = @Html.Raw(Json.Encode(ViewBag.UnavailableHoursByDate));
                 }
             }
         });
+
 
         // Optionally, you can remove this part, as you don't want any date to be automatically selected
         

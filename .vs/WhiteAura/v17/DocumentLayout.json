@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\whiteaura\\views\\services\\placese.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|solutionrelative:whiteaura\\views\\services\\placese.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\whiteaura\\views\\services\\book.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|solutionrelative:whiteaura\\views\\services\\book.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|c:\\users\\orange\\desktop\\new folder (22)\\whiteaura\\whiteaura\\views\\admin\\createbooking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|solutionrelative:whiteaura\\views\\admin\\createbooking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -33,14 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\whiteaura\\views\\services\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|solutionrelative:whiteaura\\views\\services\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\whiteaura\\views\\services\\placese.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|solutionrelative:whiteaura\\views\\services\\placese.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\whiteaura\\views\\services\\book.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|solutionrelative:whiteaura\\views\\services\\book.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2B31BA4C-475C-4FC0-8337-61BC35816933}|WhiteAura\\WhiteAura.csproj|c:\\users\\orange\\desktop\\new folder (22)\\whiteaura\\whiteaura\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -89,7 +89,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 17,
           "Children": [
             {
               "$type": "Bookmark",
@@ -105,20 +105,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "CreateBooking.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\CreateBooking.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Admin\\CreateBooking.cshtml",
-              "ToolTip": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\CreateBooking.cshtml*",
-              "RelativeToolTip": "WhiteAura\\Views\\Admin\\CreateBooking.cshtml*",
-              "ViewState": "AQIAACcAAAAAAAAAAAAAADcAAABUAAAA",
+              "ToolTip": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\CreateBooking.cshtml",
+              "RelativeToolTip": "WhiteAura\\Views\\Admin\\CreateBooking.cshtml",
+              "ViewState": "AQIAACcAAAAAAAAAAAAAADsAAABIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-18T08:43:45.112Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "AddCategory.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\AddCategory.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Admin\\AddCategory.cshtml",
@@ -131,7 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CreateBlog.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\CreateBlog.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Admin\\CreateBlog.cshtml",
@@ -144,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "EditBlog.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\EditBlog.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Admin\\EditBlog.cshtml",
@@ -157,7 +157,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "WhiteAura\\Controllers\\AdminController.cs",
@@ -221,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Blog.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Admin\\Blog.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Admin\\Blog.cshtml",
@@ -258,7 +258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Planner.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Services\\Planner.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Services\\Planner.cshtml",
@@ -284,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
               "Title": "Placese.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Services\\Placese.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Services\\Placese.cshtml",
@@ -297,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Services\\Details.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Services\\Details.cshtml",
@@ -323,13 +323,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
               "Title": "Book.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Services\\Book.cshtml",
               "RelativeDocumentMoniker": "WhiteAura\\Views\\Services\\Book.cshtml",
-              "ToolTip": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Services\\Book.cshtml",
-              "RelativeToolTip": "WhiteAura\\Views\\Services\\Book.cshtml",
-              "ViewState": "AQIAALEAAAAAAAAAAAAgwC0BAAA6AAAA",
+              "ToolTip": "C:\\Users\\Orange\\Desktop\\New folder (22)\\WhiteAura\\WhiteAura\\Views\\Services\\Book.cshtml*",
+              "RelativeToolTip": "WhiteAura\\Views\\Services\\Book.cshtml*",
+              "ViewState": "AQIAAA4BAAAAAAAAAAAmwCkBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-07T05:41:55.638Z",
               "EditorCaption": ""
