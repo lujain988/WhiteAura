@@ -105,6 +105,7 @@ public ActionResult Placese(int? id, string city, string type, decimal? price)
 
             int? userId = Session["UserId"] as int?;
 
+            // Retrieve service details
             var service = db.Services
                             .Where(s => s.ID == id)
                             .Select(s => new
@@ -119,6 +120,7 @@ public ActionResult Placese(int? id, string city, string type, decimal? price)
                             })
                             .FirstOrDefault();
 
+            // Retrieve user details
             var user = db.Users
                          .Where(u => u.ID == userId)
                          .Select(u => new
@@ -129,6 +131,7 @@ public ActionResult Placese(int? id, string city, string type, decimal? price)
                          })
                          .FirstOrDefault();
 
+            // Initialize BookingViewModel
             var booking = new BookingViewModel
             {
                 ServiceID = id.Value,
@@ -139,35 +142,36 @@ public ActionResult Placese(int? id, string city, string type, decimal? price)
                 FullName = user.FullName,
                 Email = user.Email,
                 Phone = user.PhoneNumber,
-                WeddingDate = DateTime.Now
+                // Use DateTime.UtcNow instead of DateTime.Now
+                WeddingDate = DateTime.UtcNow.Date
             };
 
-
+            // Get unavailable dates and reserved hours
             // Get unavailable dates and reserved hours
             var reservedBookings = db.Bookings
                 .Where(b => b.ServiceID == id && b.Status == "Confirmed")
                 .Select(b => new
                 {
-                    BookingDate = DbFunctions.TruncateTime(b.BookingDate), 
+                    // Retrieve BookingDate directly without converting it
+                    BookingDate = DbFunctions.TruncateTime(b.BookingDate),
                     ReservedHour = b.ReservedHours
                 })
                 .ToList();
 
-
-
+            // Now, convert BookingDate to UTC after fetching from the database
             var unavailableHoursByDate = reservedBookings
-       .GroupBy(rb => rb.BookingDate)
-       .ToDictionary(
-           g => g.Key?.ToString("yyyy-MM-dd") ?? string.Empty, 
-           g => g.Select(x => x.ReservedHour).ToList() 
-       );
-
+                .GroupBy(rb => rb.BookingDate)
+                .ToDictionary(
+                    g => g.Key?.ToUniversalTime().ToString("yyyy-MM-dd") ?? string.Empty, // Convert to UTC after grouping
+                    g => g.Select(x => x.ReservedHour).ToList()
+                );
 
             if (!unavailableHoursByDate.Any())
             {
                 System.Diagnostics.Debug.WriteLine("No unavailable hours found.");
             }
 
+            // Pass to ViewBag
             ViewBag.UnavailableHoursByDate = unavailableHoursByDate;
 
             return View(booking);

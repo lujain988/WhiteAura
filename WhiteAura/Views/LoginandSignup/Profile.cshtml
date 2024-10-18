@@ -501,27 +501,34 @@
                                         </p>
 
                                         <div id="proceedButtonContainer">
+                                            <div id="proceedButtonContainer">
+                                                @if (booking.IsDateAvailable) // Check if the booking date is available
+                                                {
+                                                    if (booking.IsPaid == false || booking.IsPaid == null)
+                                                    {
+                                                        <a href="@Url.Action("Payment", "Paymeant", new { bookingId = booking.ID })" class="btn btn-primary">Proceed to Payment</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-success">Booking is Paid</p>
+                                                    }
+                                                }
+                                                else // If the booking date is not available
+                                                {
+                                                    <p class="text-danger">This booking date is not available. You cannot proceed to payment.</p>// Message for unavailable bookings
+                                                }
+                                            </div>
+
                                             @if (booking.IsPaid == false || booking.IsPaid == null)
                                             {
-
-                                                <a href="@Url.Action("Payment", "Paymeant", new { bookingId = booking.ID })" class="btn btn-primary">Proceed to Payment</a>
-
+                                                using (Html.BeginForm("DeleteBooking", "Services", FormMethod.Post, new { id = "deleteForm_" + booking.ID }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("id", booking.ID)
+                                                    <button type="button" class="btn btn-danger" onclick="confirmCancellation('deleteForm_@booking.ID')">Cancel Booking</button>
+                                                }
                                             }
-                                            else
-                                            {
-                                                <p class="text-success">Booking is Paid</p>
-                                            }
-                                        </div>
 
-                                        @if (booking.IsPaid == false)  // Only show the cancel button if the booking is not paid
-                                        {
-                                            using (Html.BeginForm("DeleteBooking", "Services", FormMethod.Post, new { id = "deleteForm_" + booking.ID }))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                @Html.Hidden("id", booking.ID)
-                                                <button type="button" class="btn btn-danger" onclick="confirmCancellation('deleteForm_@booking.ID')">Cancel Booking</button>
-                                            }
-                                        }
 
                                     </li>
                                 }

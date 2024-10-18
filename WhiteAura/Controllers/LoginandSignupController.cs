@@ -141,9 +141,33 @@ namespace WhiteAura.Controllers
                 return HttpNotFound();
             }
 
-            return View(user);
-        }
+            // Get a list of all confirmed and paid booking dates for comparison, excluding the current user's bookings
+            var unavailableDates = db.Bookings
+         .Where(b => (b.Status == "Confirmed" || b.IsPaid == true) && b.UserID != userId)
+         .Select(b => new
+         {
+             b.ServiceID,
+             BookingDate = DbFunctions.TruncateTime(b.BookingDate),
+             b.ReservedHours // Include ReservedHours in the selection
+         })
+         .ToList(); // Materialize the query
 
+            // Check each booking's date availability directly in the database context
+            foreach (var booking in user.Bookings)
+            {
+                // Here we are checking against the materialized list
+                booking.IsDateAvailable = !unavailableDates.Any(b =>
+                    b.ServiceID == booking.ServiceID &&
+                    b.BookingDate.Value.Date == booking.BookingDate.Value.Date &&
+                    booking.ReservedHours.HasValue &&
+                    b.ReservedHours.HasValue &&
+                    booking.ReservedHours.Value == b.ReservedHours.Value); // Check if the booking's reserved hour matches the unavailable reserved hour
+            }
+
+            return View(user); // Return the user with updated bookings including availability status
+
+
+        }
 
 
 

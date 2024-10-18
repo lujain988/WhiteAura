@@ -11,7 +11,8 @@ namespace WhiteAura.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Booking
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -34,7 +35,9 @@ namespace WhiteAura.Models
         public Nullable<System.DateTime> ConfirmedAt { get; set; }
         public Nullable<System.DateTime> PaymentDeadline { get; set; }
         public Nullable<System.TimeSpan> ReservedHours { get; set; }
-    
+        [NotMapped] // Ensure this does not map to the database
+        public bool IsDateAvailable { get; set; }
+
         public virtual Service Service { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

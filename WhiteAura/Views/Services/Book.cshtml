@@ -132,13 +132,16 @@
     }
 
     .fully-booked {
-        background-color: rgba(255, 0, 0, 0.7); /* Red for fully booked days */
-        color: white; /* White text for better contrast */
+        background-color: rgba(255, 0, 0, 0.5); /* Light red for fully booked days */
+        color: #fff; /* White text for better contrast */
+        pointer-events: none; /* Disable interaction */
     }
 
     .partially-booked {
-        background-color: rgba(255, 0, 0, 0.3); /* Light red for partially booked days */
+        background-color: rgba(255, 165, 0, 0.5); /* Orange for partially booked days */
+        color: #000; /* Black text for contrast */
     }
+
 
     .reserved {
         opacity: 0.5; /* Dim the reserved time slots */
@@ -221,90 +224,77 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 const unavailableDates = @Html.Raw(Json.Encode(ViewBag.UnavailableHoursByDate));
-    document.addEventListener('DOMContentLoaded', function () {
-        const dateInput = document.getElementById('date');
-        const timeOptions = document.querySelectorAll('input[name="ReservedHours"]');
 
-        // Function to update the reserved hours for the selected date
-        function updateReservedHours(selectedDate) {
-            // Clear previous styling (removing 'reserved' and 'disabled' classes)
-            timeOptions.forEach(option => {
-                option.parentNode.classList.remove('reserved');
-                option.parentNode.classList.remove('disabled');
-            });
+document.addEventListener('DOMContentLoaded', function () {
+    const timeOptions = document.querySelectorAll('input[name="ReservedHours"]');
 
-            // Check for reserved hours for the selected date
-            const reservedHours = unavailableDates[selectedDate];
-            console.log("Reserved Hours for Date: ", reservedHours);  // Debugging reserved hours
-
-            if (reservedHours) {
-                // Disable the reserved hours
-                reservedHours.forEach(hourObj => {
-                    const hours = String(hourObj.Hours).padStart(2, '0'); // Ensure two digits for hours
-                    const minutes = String(hourObj.Minutes).padStart(2, '0'); // Ensure two digits for minutes
-                    const hourString = `${hours}:${minutes}`;
-                    console.log("Checking hour: ", hourString); // Debugging each hour being checked
-
-                    // Loop through the time options and disable the reserved ones
-                    timeOptions.forEach(option => {
-                        if (option.value === hourString) {
-                            option.parentNode.classList.add('reserved');
-                            option.parentNode.classList.add('disabled'); // Disable the specific hour
-                            console.log("Disabled hour: ", option.value); // Debugging disabled hours
-                        }
-                    });
-                });
-            }
-        }
-
-        // Initialize the flatpickr date picker without a default date
-        const flatpickrInstance = flatpickr("#date", {
-            dateFormat: "m/d/Y",
-            defaultDate: null,  // No default date selection on calendar initialization
-            minDate: "today",  // Prevent selection of past dates
-            disable: Object.keys(unavailableDates).map(date => {
-                const reservedHours = unavailableDates[date];
-                // Disable the date only if all 3 time slots are reserved
-                return reservedHours && reservedHours.length === 3 ? new Date(date) : null;
-            }).filter(date => date !== null),
-            onDayCreate: function (dObj, dStr, instance) {
-                const date = dStr; // Date string in 'YYYY-MM-DD' format
-                const reservedHours = unavailableDates[date];
-
-                // Highlight the date if it's fully booked
-                if (reservedHours && reservedHours.length === 3) {
-                    instance.days.forEach((day) => {
-                        if (day.dateObj.toISOString().slice(0, 10) === date) {
-                            day.element.classList.add("fully-booked");
-                        }
-                    });
-                } else if (reservedHours && (reservedHours.length === 2 || reservedHours.length === 1)) {
-                    // Highlight the date as partially booked
-                    instance.days.forEach((day) => {
-                        if (day.dateObj.toISOString().slice(0, 10) === date) {
-                            day.element.classList.add("partially-booked");
-                        }
-                    });
-                }
-            },
-            onChange: function (selectedDates) {
-                const selectedDate = selectedDates[0];
-                if (selectedDate) {
-                    const dateString = selectedDate.toISOString().slice(0, 10);
-                    updateReservedHours(dateString); // Update reserved hours when a date is selected
-                }
-            }
+    // Function to update the reserved hours for the selected date
+    function updateReservedHours(selectedDate) {
+        // Clear previous styling (removing 'reserved' and 'disabled' classes)
+        timeOptions.forEach(option => {
+            option.parentNode.classList.remove('reserved');
+            option.parentNode.classList.remove('disabled');
         });
 
+        // Check for reserved hours for the selected date
+        const reservedHours = unavailableDates[selectedDate];
 
-        // Optionally, you can remove this part, as you don't want any date to be automatically selected
-        
-        const initialDate = dateInput.value || flatpickrInstance.selectedDates[0]?.toISOString().slice(0, 10);
-        if (initialDate) {
-            updateReservedHours(initialDate); // Update reserved hours on load
+        if (reservedHours) {
+            // Disable the reserved hours
+            reservedHours.forEach(hourObj => {
+                const hours = String(hourObj.Hours).padStart(2, '0'); // Ensure two digits for hours
+                const minutes = String(hourObj.Minutes).padStart(2, '0'); // Ensure two digits for minutes
+                const hourString = `${hours}:${minutes}`;
+
+                // Loop through the time options and disable the reserved ones
+                timeOptions.forEach(option => {
+                    if (option.value === hourString) {
+                        option.parentNode.classList.add('reserved');
+                        option.parentNode.classList.add('disabled'); // Disable the specific hour
+                    }
+                });
+            });
         }
-        
+    }
+
+    // Initialize the flatpickr date picker
+    const flatpickrInstance = flatpickr("#date", {
+        dateFormat: "Y-m-d",
+        defaultDate: null,
+        minDate: "today",
+        // Disable dates where all hours are reserved
+        disable: Object.keys(unavailableDates).filter(date => {
+            const reservedHours = unavailableDates[date];
+            // Disable the date if it has exactly 3 reserved hours
+            return (reservedHours && reservedHours.length === 3);
+        }),
+
+        onDayCreate: function (dObj, dStr, instance, dayElem) {
+            const date = dayElem.dateObj.toISOString().slice(0, 10);
+            const reservedHours = unavailableDates[date];
+
+            // Check if the date is fully booked (3 hours reserved)
+            if (reservedHours && reservedHours.length === 3) {
+                dayElem.classList.add("fully-booked");
+            } else if (reservedHours && reservedHours.length < 3 && reservedHours.length > 0) {
+                dayElem.classList.add("partially-booked");
+            }
+        },
+
+        onChange: function (selectedDates) {
+            const selectedDate = selectedDates[0];
+            if (selectedDate) {
+                const dateString = selectedDate.toISOString().slice(0, 10);
+                updateReservedHours(dateString);
+            }
+        }
     });
 
+    // Initial call to update reserved hours based on the initial value of the date input
+    const initialDate = document.getElementById('date').value || flatpickrInstance.selectedDates[0]?.toISOString().slice(0, 10);
+    if (initialDate) {
+        updateReservedHours(initialDate); // Update reserved hours on load
+    }
+});
 </script>
 
