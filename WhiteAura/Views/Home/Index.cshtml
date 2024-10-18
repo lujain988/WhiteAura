@@ -57,7 +57,7 @@
                     onclick="location.href='@Url.Action("Services", "Services")'">
                 Plan My Wedding
             </button>
-         
+
 
         </div>
     </div>
@@ -197,66 +197,79 @@
              class="image-left" />
     </div>
 </section>
-
 <section class="services mt-5">
     <h2 class="text-center mb-5">Our Services</h2>
     <div class="d-flex flex-wrap justify-content-center">
+        <!-- Wedding Venue -->
         <div class="col-md-5 col-sm-12 mb-4" id="m4">
-            <div class="card card-block" id="cardd">
-                <h4 class="card-title text-right">
-                    <i class="material-icons">place</i>
-                </h4>
-                <img src="~/Content/pic/service1.jpg"
-                     alt="Wedding Venue"
-                     class="card-img-top" />
-                <h5 class="card-title mt-3 mb-3">Wedding Venue</h5>
-                <p class="card-text">
-                    Find the perfect venue for your special day.
-                </p>
-            </div>
+            <a href="@Url.Action("Placese", "Services", new { id = 1 })"
+               class="link-opacity-75 link-opacity-100-hover text-decoration-none fs-8 link-light">
+                <div class="card card-block" id="cardd">
+                    <h4 class="card-title text-right">
+                        <i class="material-icons">place</i>
+                    </h4>
+                    <img src="~/Content/pic/service1.jpg"
+                         alt="Wedding Venue"
+                         class="card-img-top" />
+                    <h5 class="card-title mt-3 mb-3">Wedding Venue</h5>
+                    <p class="card-text">Find the perfect venue for your special day.</p>
+                </div>
+            </a>
         </div>
+
+        <!-- Wedding Photographer -->
         <div class="col-md-5 col-sm-12 mb-4" id="m3">
-            <div class="card card-block" id="cardd1">
-                <h4 class="card-title text-right">
-                    <i class="material-icons">camera_alt</i>
-                </h4>
-                <img src="~/Content/pic/service2.jpg"
-                     alt="Wedding Photographer"
-                     class="card-img-top" />
-                <h5 class="card-title mt-3 mb-3">Wedding Photographer</h5>
-                <p class="card-text">Capture your best wedding moments.</p>
-            </div>
+            <a href="@Url.Action("Planner", "Services", new { id = 3 })"
+               class="link-opacity-75 link-opacity-100-hover text-decoration-none fs-8 link-light">
+                <div class="card card-block" id="cardd1">
+                    <h4 class="card-title text-right">
+                        <i class="material-icons">camera_alt</i>
+                    </h4>
+                    <img src="~/Content/pic/service2.jpg"
+                         alt="Wedding Photographer"
+                         class="card-img-top" />
+                    <h5 class="card-title mt-3 mb-3">Wedding Photographer</h5>
+                    <p class="card-text">Capture your best wedding moments.</p>
+                </div>
+            </a>
         </div>
+
+        <!-- Wedding Farms -->
         <div class="col-md-5 col-sm-12 mb-4" id="m2">
-            <div class="card card-block" id="cardd2">
-                <h4 class="card-title text-right">
-                    <i class="material-icons">nature</i>
-                </h4>
-                <img src="~/Content/pic/service3.jpg"
-                     alt="Wedding Farms"
-                     class="card-img-top" />
-                <h5 class="card-title mt-3 mb-3">Wedding Farms</h5>
-                <p class="card-text">
-                    Beautiful outdoor farm settings for your wedding.
-                </p>
-            </div>
+            <a href="@Url.Action("Placese", "Services", new { id = 1 })"
+               class="link-opacity-75 link-opacity-100-hover text-decoration-none fs-8 link-light">
+                <div class="card card-block" id="cardd2">
+                    <h4 class="card-title text-right">
+                        <i class="material-icons">nature</i>
+                    </h4>
+                    <img src="~/Content/pic/service3.jpg"
+                         alt="Wedding Farms"
+                         class="card-img-top" />
+                    <h5 class="card-title mt-3 mb-3">Wedding Farms</h5>
+                    <p class="card-text">Beautiful outdoor farm settings for your wedding.</p>
+                </div>
+            </a>
         </div>
+
+        <!-- Wedding Planner -->
         <div class="col-md-5 col-sm-12 mb-4" id="m1">
-            <div class="card card-block" id="cardd3">
-                <h4 class="card-title text-right">
-                    <i class="material-icons">event</i>
-                </h4>
-                <img src="~/Content/pic/service4.jpg"
-                     alt="Wedding Planner"
-                     class="card-img-top" />
-                <h5 class="card-title mt-3 mb-3">Wedding Planner</h5>
-                <p class="card-text">
-                    Professional planning for a flawless wedding.
-                </p>
-            </div>
+            <a href="@Url.Action("Planner", "Services", new { id = 2 })"
+               class="link-opacity-75 link-opacity-100-hover text-decoration-none fs-8 link-light">
+                <div class="card card-block" id="cardd3">
+                    <h4 class="card-title text-right">
+                        <i class="material-icons">event</i>
+                    </h4>
+                    <img src="~/Content/pic/service4.jpg"
+                         alt="Wedding Planner"
+                         class="card-img-top" />
+                    <h5 class="card-title mt-3 mb-3">Wedding Planner</h5>
+                    <p class="card-text">Professional planning for a flawless wedding.</p>
+                </div>
+            </a>
         </div>
     </div>
 </section>
+
 <section class="py-3 py-md-5 py-xl-8 testimonials"
          style="background-image: url(../../Content/pic/black8.jpg); background-attachment: fixed; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); padding: 20px; justify-content: center;" id="">
     <div class="container overflow-hidden">
