@@ -19,7 +19,7 @@ WhiteAura is a wedding services platform designed to simplify the planning proce
 
 - **Admin Dashboard:** Manage users, services, and bookings through an intuitive dashboard.
 - **Service Management:** Add, edit, and remove wedding services.
-- **User Management:** Oversee user accounts and access user details.
+- **User Management:** View all user.
 - **Booking Oversight:** View all booking activities.
 - **Reporting Tools:** Access reports on service usage and user engagement.
 
