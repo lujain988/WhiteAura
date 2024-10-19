@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Cryptography; // Import for SHA256
+using System.Text; // Import for string encoding
 using WhiteAura.Models;
 
 namespace WhiteAura.Controllers
@@ -24,6 +26,7 @@ namespace WhiteAura.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(User user)
@@ -39,7 +42,8 @@ namespace WhiteAura.Controllers
                 var existingUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
                 if (existingUser != null)
                 {
-                    if (existingUser.Password == user.Password)
+                    // Compare the hashed password
+                    if (VerifyPassword(user.Password, existingUser.Password))
                     {
                         Session["UserEmail"] = existingUser.Email;
                         Session["UserID"] = existingUser.ID;
@@ -59,10 +63,10 @@ namespace WhiteAura.Controllers
                         if (TempData["ReturnUrl"] != null)
                         {
                             string returnUrl = TempData["ReturnUrl"].ToString();
-                            return Redirect(returnUrl); 
+                            return Redirect(returnUrl);
                         }
 
-                        return RedirectToAction("Index", "Home"); 
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
@@ -80,8 +84,6 @@ namespace WhiteAura.Controllers
             ModelState.AddModelError("", "Invalid email or password.");
             return View(user);
         }
-
-
 
         public ActionResult SingUp()
         {
@@ -102,10 +104,9 @@ namespace WhiteAura.Controllers
                 var existUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
                 if (existUser == null)
                 {
-
+                    // Hash the password before saving it to the database
+                    user.Password = HashPassword(user.Password);
                     db.Users.Add(user);
-                    db.SaveChanges();
-
                     db.SaveChanges();
 
                     return RedirectToAction("Login");
@@ -118,7 +119,6 @@ namespace WhiteAura.Controllers
 
             return View(user);
         }
-
 
         [HttpGet]
         public ActionResult Profile()
@@ -143,14 +143,14 @@ namespace WhiteAura.Controllers
 
             // Get a list of all confirmed and paid booking dates for comparison, excluding the current user's bookings
             var unavailableDates = db.Bookings
-         .Where(b => (b.Status == "Confirmed" || b.IsPaid == true) && b.UserID != userId)
-         .Select(b => new
-         {
-             b.ServiceID,
-             BookingDate = DbFunctions.TruncateTime(b.BookingDate),
-             b.ReservedHours // Include ReservedHours in the selection
-         })
-         .ToList(); // Materialize the query
+                .Where(b => (b.Status == "Confirmed" || b.IsPaid == true) && b.UserID != userId)
+                .Select(b => new
+                {
+                    b.ServiceID,
+                    BookingDate = DbFunctions.TruncateTime(b.BookingDate),
+                    b.ReservedHours // Include ReservedHours in the selection
+                })
+                .ToList(); // Materialize the query
 
             // Check each booking's date availability directly in the database context
             foreach (var booking in user.Bookings)
@@ -165,13 +165,7 @@ namespace WhiteAura.Controllers
             }
 
             return View(user); // Return the user with updated bookings including availability status
-
-
         }
-
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -203,12 +197,12 @@ namespace WhiteAura.Controllers
             userInDb.PhoneNumber = user.PhoneNumber;
             userInDb.Description = user.Description;
 
-            // Save changes to the database
             db.Entry(userInDb).State = EntityState.Modified;
             db.SaveChanges();
 
             return RedirectToAction("Profile");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)
@@ -225,16 +219,17 @@ namespace WhiteAura.Controllers
                 return Json(new { success = false, errorMessage = "User not found." });
             }
 
-            if (user.Password != currentPassword)
+            if (user.Password != HashPassword(currentPassword)) // Hash the current password for comparison
             {
                 return Json(new { success = false, errorMessage = "Current password is incorrect." });
             }
 
-            user.Password = newPassword;
+            user.Password = HashPassword(newPassword); // Hash the new password before saving
             db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
             return Json(new { success = true });
         }
+
         public ActionResult CheckLogin(int id)
         {
             bool isLoggedIn = Session["UserID"] != null;
@@ -251,12 +246,6 @@ namespace WhiteAura.Controllers
             return RedirectToAction("Book", "Services", new { id = id });
         }
 
-
-
-
-
-
-
         public ActionResult Logout()
         {
             Session.Clear();
@@ -264,5 +253,24 @@ namespace WhiteAura.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var builder = new StringBuilder();
+                foreach (var b in bytes)
+                {
+                    builder.Append(b.ToString("x2")); 
+                }
+                return builder.ToString();
+            }
+        }
+
+        private bool VerifyPassword(string enteredPassword, string storedHash)
+        {
+            var hashOfEnteredPassword = HashPassword(enteredPassword);
+            return hashOfEnteredPassword.Equals(storedHash);
+        }
     }
 }
