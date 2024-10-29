@@ -99,6 +99,12 @@ namespace WhiteAura.Controllers
                 ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
             }
 
+            // Validate the password requirements
+            if (!IsValidPassword(user.Password))
+            {
+                ModelState.AddModelError("Password", "Password must be at least 8 characters long, contain at least one uppercase letter, one special character (e.g., @), and one number.");
+            }
+
             if (ModelState.IsValid)
             {
                 var existUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
@@ -118,6 +124,22 @@ namespace WhiteAura.Controllers
             }
 
             return View(user);
+        }
+
+        // Method to validate the password
+        private bool IsValidPassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return false;
+
+            if (password.Length < 8)
+                return false;
+
+            var hasUpperCase = password.Any(char.IsUpper);
+            var hasNumber = password.Any(char.IsDigit);
+            var hasSpecialChar = password.Any(ch => "!@#$%^&*()_-+=<>?/|~`.,".Contains(ch));
+
+            return hasUpperCase && hasNumber && hasSpecialChar;
         }
 
         [HttpGet]
@@ -178,9 +200,10 @@ namespace WhiteAura.Controllers
                 return RedirectToAction("Login", "LoginandSignup");
             }
 
-            if (user == null)
+            // Validate the model state before proceeding
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(400, "User data is missing or malformed.");
+                return View(user); // Ensure you pass the user model back to the view
             }
 
             // Fetch the user from the database
@@ -202,6 +225,7 @@ namespace WhiteAura.Controllers
 
             return RedirectToAction("Profile");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

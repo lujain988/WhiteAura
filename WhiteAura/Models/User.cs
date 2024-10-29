@@ -11,7 +11,8 @@ namespace WhiteAura.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -29,7 +30,9 @@ namespace WhiteAura.Models
         public string FullName { get; set; }
         public string Password { get; set; }
         public string ConifrmPassword { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         public string Email { get; set; }
+        [StringLength(13, ErrorMessage = "Phone number cannot exceed 13 characters.")]
         public string PhoneNumber { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string Description { get; set; }

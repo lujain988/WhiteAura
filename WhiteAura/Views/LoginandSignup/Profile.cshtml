@@ -417,10 +417,14 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-4 label">Email</div>
                         <div class="col-lg-9 col-md-8">@Model.Email</div>
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
                     </div>
                     <div class="row">
                         <div class="col-lg-3 col-md-4 label">Phone</div>
                         <div class="col-lg-9 col-md-8">@Model.PhoneNumber</div>
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
