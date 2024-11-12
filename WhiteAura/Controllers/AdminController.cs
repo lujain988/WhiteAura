@@ -387,20 +387,7 @@ namespace WhiteAura.Controllers
             return Json(new { success = false, message = string.Join(", ", errors) });
         }
 
-        //public ActionResult EditService(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-        //    }
-        //    Service service = db.Services.Find(id);
-        //    if (service == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.CategoryID = new SelectList(db.Categories, "ID", "CategoryName", service.CategoryID);
-        //    return View(service);
-        //}
+
         public ActionResult EditServiceVendor(int? id)
         {
             if (id == null)
@@ -419,61 +406,78 @@ namespace WhiteAura.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult EditServiceVendor(Service service, HttpPostedFileBase imageFile, HttpPostedFileBase[] imgFiles)
         {
             if (ModelState.IsValid)
             {
-                // Retrieve the existing service from the database
-                var existingService = db.Services.Find(service.ID);
-                if (existingService == null)
+                try
                 {
-                    return HttpNotFound();
-                }
-
-                // Update the existing service properties
-                existingService.ServiceName = service.ServiceName;
-                existingService.Description = service.Description;
-                existingService.Price = service.Price;
-                existingService.CreatedAt = service.CreatedAt;
-                existingService.CategoryID = service.CategoryID;
-                existingService.Type = service.Type;
-                existingService.City = service.City;
-                existingService.Details = service.Details;
-                existingService.NumbeOfGuests = service.NumbeOfGuests;
-                existingService.Location = service.Location;
-                existingService.LocationPlace = service.LocationPlace;
-
-                // Handle the image upload
-                if (imageFile != null && imageFile.ContentLength > 0)
-                {
-                    var fileName = Path.GetFileName(imageFile.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                    imageFile.SaveAs(path);
-                    existingService.Image = fileName; // Save the new image name
-                }
-
-                // Handle multiple image uploads
-                for (int i = 0; i < imgFiles.Length; i++)
-                {
-                    if (imgFiles[i] != null && imgFiles[i].ContentLength > 0)
+                    // Retrieve the existing service from the database
+                    var existingService = db.Services.Find(service.ID);
+                    if (existingService == null)
                     {
-                        var imgFileName = Path.GetFileName(imgFiles[i].FileName);
-                        var imgPath = Path.Combine(Server.MapPath("~/Uploads"), imgFileName);
-                        imgFiles[i].SaveAs(imgPath);
-                        existingService.GetType().GetProperty("img" + (i + 1)).SetValue(existingService, imgFileName); // Update the corresponding img property
+                        return Json(new { success = false, message = "Service not found." });
                     }
-                }
 
-                // Save changes to the database
-                db.SaveChanges();
-                ViewBag.SuccessMessage = "Service updated successfully!";
-                return Json(new { success = true, message = "Service updated successfully!" });
+                    // Update the existing service properties
+                    existingService.ServiceName = service.ServiceName;
+                    existingService.Description = service.Description;
+                    existingService.Price = service.Price;
+                    existingService.CreatedAt = service.CreatedAt;
+                    existingService.CategoryID = service.CategoryID;
+                    existingService.Type = service.Type;
+                    existingService.City = service.City;
+                    existingService.Details = service.Details;
+                    existingService.NumbeOfGuests = service.NumbeOfGuests;
+                    existingService.Location = service.Location;
+                    existingService.LocationPlace = service.LocationPlace;
+
+                    // Define the upload directory
+                    string uploadDir = "~/Uploads";
+                    string uploadPath = Server.MapPath(uploadDir);
+
+                    // Ensure the upload directory exists
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+                    // Handle the main image upload
+                    if (imageFile != null && imageFile.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(imageFile.FileName);
+                        var mainImagePath = Path.Combine(uploadPath, fileName);
+                        imageFile.SaveAs(mainImagePath);
+                        existingService.Image = uploadDir + "/" + fileName; // Save the new image path in the same way as in CreateService
+                    }
+
+                    // Handle additional image uploads img1 to img7
+                    for (int i = 0; i < imgFiles.Length; i++)
+                    {
+                        if (imgFiles[i] != null && imgFiles[i].ContentLength > 0)
+                        {
+                            var imgFileName = Path.GetFileName(imgFiles[i].FileName);
+                            var imgPath = Path.Combine(uploadPath, imgFileName);
+                            imgFiles[i].SaveAs(imgPath);
+                            typeof(Service).GetProperty($"img{i + 1}").SetValue(existingService, uploadDir + "/" + imgFileName); // Update the img property
+                        }
+                    }
+
+                    // Save changes to the database
+                    db.SaveChanges();
+                    return Json(new { success = true, message = "Service updated successfully!" });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "An error occurred: " + ex.Message });
+                }
             }
 
-            // If model state is invalid, redisplay the form
-            return Json(new { success = false, message = "There was an error updating the service." });
+            // If model state is invalid, collect and return errors
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return Json(new { success = false, message = "Validation failed: " + string.Join(", ", errors) });
         }
+
 
         [HttpPost]
         public JsonResult DeleteService(int id)
