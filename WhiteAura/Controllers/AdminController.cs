@@ -749,43 +749,66 @@ namespace WhiteAura.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Fetch the existing blog entry from the database
-                var existingBlog = db.Blogs.Find(model.ID);
-                if (existingBlog != null)
+                try
                 {
-                    // Update the properties from the model
-                    existingBlog.Title = model.Title;
-                    existingBlog.Content = model.Content;
-
-                    // Only update the main image if a new file is uploaded
-                    if (imageFile != null && imageFile.ContentLength > 0)
+                    // Fetch the existing blog entry from the database
+                    var existingBlog = db.Blogs.Find(model.ID);
+                    if (existingBlog != null)
                     {
-                        // Save the new main image
-                        var mainImagePath = Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(imageFile.FileName));
-                        imageFile.SaveAs(mainImagePath);
-                        existingBlog.Image = imageFile.FileName;
-                    }
+                        // Update the properties from the model
+                        existingBlog.Title = model.Title;
+                        existingBlog.Content = model.Content;
 
-                    // Handle additional images
-                    for (int i = 0; i < imgFiles.Count(); i++)
-                    {
-                        var imgFile = imgFiles.ElementAt(i);
-                        if (imgFile != null && imgFile.ContentLength > 0)
+                        // Define the upload directory
+                        string uploadDir = "~/Uploads/Blogs";
+                        string uploadPath = Server.MapPath(uploadDir);
+
+                        // Ensure the upload directory exists
+                        if (!Directory.Exists(uploadPath))
                         {
-                            // Save the new additional image
-                            var additionalImagePath = Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(imgFile.FileName));
-                            imgFile.SaveAs(additionalImagePath);
-                            existingBlog.GetType().GetProperty("img" + (i + 1)).SetValue(existingBlog, imgFile.FileName);
+                            Directory.CreateDirectory(uploadPath);
                         }
-                    }
 
-                    // Save changes to the database
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Blog updated successfully!" });
+                        // Only update the main image if a new file is uploaded
+                        if (imageFile != null && imageFile.ContentLength > 0)
+                        {
+                            string fileName = Path.GetFileName(imageFile.FileName);
+                            string mainImagePath = Path.Combine(uploadPath, fileName);
+                            imageFile.SaveAs(mainImagePath);
+                            existingBlog.Image = uploadDir + "/" + fileName; // Store the relative path
+                        }
+
+                        // Handle additional images
+                        for (int i = 0; i < imgFiles.Count(); i++)
+                        {
+                            var imgFile = imgFiles.ElementAt(i);
+                            if (imgFile != null && imgFile.ContentLength > 0)
+                            {
+                                string fileName = Path.GetFileName(imgFile.FileName);
+                                string additionalImagePath = Path.Combine(uploadPath, fileName);
+                                imgFile.SaveAs(additionalImagePath);
+                                existingBlog.GetType().GetProperty($"img{i + 1}")
+                                    .SetValue(existingBlog, uploadDir + "/" + fileName); // Store the relative path
+                            }
+                        }
+
+                        // Save changes to the database
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Blog updated successfully!" });
+                    }
+                    return Json(new { success = false, message = "Blog not found." });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "An error occurred: " + ex.Message });
                 }
             }
-            return Json(new { success = false, message = "Failed to update blog." });
+
+            // If model state is invalid, return error messages
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return Json(new { success = false, message = "Validation failed: " + string.Join(", ", errors) });
         }
+
 
 
         [HttpPost]

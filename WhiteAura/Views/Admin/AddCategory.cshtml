@@ -9,7 +9,7 @@
 <div class="container">
     <h2>Add New Category</h2>
 
-    @using (Html.BeginForm("AddCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("AddCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addCategoryForm" }))
     {
         @Html.AntiForgeryToken()
 
@@ -18,25 +18,25 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.CategoryName, new { @class = "form-label" })
-                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                 @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Image, new { @class = "form-label" })
-                <input type="file" name="imageFile" class="form-control" />
+                <input type="file" name="imageFile" class="form-control" required="required" />
                 @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Description, new { @class = "form-label" })
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Details, new { @class = "form-label" })
-                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
             </div>
 
@@ -59,7 +59,7 @@
     }
 
     .container {
-        max-width: 1200px; /* Increase this value to make the form larger */
+        max-width: 1200px;
         margin: 0 auto;
         padding: 15px;
     }
@@ -74,12 +74,12 @@
         background-color: #ffffff;
         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
         border-radius: 3px;
-        padding: 35px; /* Increased padding for more spacious form */
+        padding: 35px;
         margin-bottom: 25px;
     }
 
     .form-group {
-        margin-bottom: 20px; /* Increase spacing between form fields */
+        margin-bottom: 20px;
     }
 
     .form-label {
@@ -90,16 +90,16 @@
 
     .form-control {
         width: 100%;
-        padding: 12px; /* Increase padding for larger input fields */
+        padding: 12px;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        font-size: 16px; /* Increase font size for better readability */
+        font-size: 16px;
     }
 
     .btn {
         display: inline-block;
-        padding: 12px 24px; /* Larger buttons */
+        padding: 12px 24px;
         font-size: 16px;
         font-weight: bold;
         text-align: center;
@@ -131,7 +131,6 @@
         text-align: center;
         margin-top: 20px;
     }
-
     .form-control {
         height: calc(1.5em + 1.75rem + 2px);
     }
@@ -139,26 +138,46 @@
 
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Include SweetAlert CSS and JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<!-- Include SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     $(document).ready(function () {
-        $('form').submit(function (e) {
+        $('#addCategoryForm').submit(function (e) {
             e.preventDefault(); // Prevent the default form submission
 
-            var form = $(this);
+            // Client-side validation for required fields
+            let isValid = true;
+            $('#addCategoryForm').find('[required]').each(function () {
+                if (!$(this).val()) {
+                    isValid = false;
+                    $(this).addClass('is-invalid'); // Add a class to highlight the invalid field
+                } else {
+                    $(this).removeClass('is-invalid'); // Remove highlight if field is filled
+                }
+            });
+
+            if (!isValid) {
+                // Show error alert if validation fails
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Please fill out all required fields, including the image.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return; // Stop form submission
+            }
+
+            // Proceed with AJAX form submission if validation passes
             var formData = new FormData(this); // Create FormData to handle file uploads
 
             $.ajax({
-                url: form.attr('action'), // Use the form's action attribute
-                type: form.attr('method'), // Use the form's method attribute
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method
                 data: formData,
                 processData: false, // Prevent jQuery from processing the data
                 contentType: false, // Prevent jQuery from setting the content type
                 success: function (response) {
-                    console.log(response); // Log the response for debugging
                     if (response.success) {
                         // Show success message
                         Swal.fire({
@@ -172,7 +191,7 @@
                             }
                         });
                     } else {
-                        // Show error message
+                        // Show error message if response indicates failure
                         Swal.fire({
                             title: 'Error!',
                             text: response.message,
@@ -183,7 +202,6 @@
                 },
                 error: function (xhr, status, error) {
                     // Handle AJAX error
-                    console.error(xhr.responseText); // Log the complete error
                     Swal.fire({
                         title: 'Error!',
                         text: 'An error occurred while submitting the form: ' + xhr.responseText,

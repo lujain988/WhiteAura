@@ -1,4 +1,4 @@
-﻿﻿@model WhiteAura.Models.Booking
+﻿@model WhiteAura.Models.Booking
 
 @{
     Layout = "~/Views/Shared/_Admin.cshtml";
@@ -14,7 +14,7 @@
 <div class="container">
     <h2>Create New Booking</h2>
 
-    @using (Html.BeginForm("CreateBooking", "Admin", FormMethod.Post))
+    @using (Html.BeginForm("CreateBooking", "Admin", FormMethod.Post, new { id = "createBookingForm", novalidate = "novalidate" }))
     {
         @Html.AntiForgeryToken()
 
@@ -24,42 +24,41 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.UserID, new { @class = "form-label" })
-                @Html.DropDownListFor(model => model.UserID, (SelectList)ViewBag.UserID, "Select User", new { @class = "form-control", @id = "user-dropdown" })
-                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.UserID, (SelectList)ViewBag.UserID, "Select User", new { @class = "form-control", @id = "user-dropdown", required = "required" })
+                <span class="text-danger" id="UserIDError"></span>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.ServiceID, new { @class = "form-label" })
-                @Html.DropDownListFor(model => model.ServiceID, (SelectList)ViewBag.ServiceID, "Select Service", new { @class = "form-control", @id = "service-dropdown" })
-                @Html.ValidationMessageFor(model => model.ServiceID, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.ServiceID, (SelectList)ViewBag.ServiceID, "Select Service", new { @class = "form-control", @id = "service-dropdown", required = "required" })
+                <span class="text-danger" id="ServiceIDError"></span>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.BookingDate, new { @class = "form-label" })
-                @Html.TextBoxFor(model => model.BookingDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.BookingDate, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.BookingDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                <span class="text-danger" id="BookingDateError"></span>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.ReservedHours, new { @class = "form-label" })
-                @Html.TextBoxFor(model => model.ReservedHours, new { @class = "form-control", type = "time" })
-                @Html.ValidationMessageFor(model => model.ReservedHours, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.ReservedHours, new { @class = "form-control", type = "time", required = "required" })
+                <span class="text-danger" id="ReservedHoursError"></span>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.NumOfGuest, new { @class = "form-label" })
-                @Html.TextBoxFor(model => model.NumOfGuest, new { @class = "form-control", type = "number" })
-                @Html.ValidationMessageFor(model => model.NumOfGuest, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.NumOfGuest, new { @class = "form-control", type = "number", required = "required" })
+                <span class="text-danger" id="NumOfGuestError"></span>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Status, new { @class = "form-label" })
                 @Html.DropDownListFor(model => model.Status,
                     new SelectList(new[] {
-                        //new { Value = "Pending", Text = "Pending" },
                         new { Value = "Confirmed", Text = "Confirmed" },
-                    }, "Value", "Text"), "Select Status", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    }, "Value", "Text"), "Select Status", new { @class = "form-control", required = "required" })
+                <span class="text-danger" id="StatusError"></span>
             </div>
 
             <div class="form-group">
@@ -67,20 +66,9 @@
                 <div>
                     @Html.RadioButtonFor(model => model.IsPaid, true, new { id = "paid" })
                     <label for="paid">Paid</label>
-
-                    @*@Html.RadioButtonFor(model => model.IsPaid, false, new { id = "notPaid" })
-                    <label for="notPaid">Not Paid</label>*@
                 </div>
-                @Html.ValidationMessageFor(model => model.IsPaid, "", new { @class = "text-danger" })
+                <span class="text-danger" id="IsPaidError"></span>
             </div>
-
-
-
-
-
-
-
-
 
             <div class="form-actions">
                 <input type="submit" value="Create Booking" class="btn btn-primary" />
@@ -190,6 +178,24 @@
         $('#service-dropdown').select2({
             placeholder: "Select Service",
             allowClear: true
+        });
+
+        // Validate on form submit
+        $('#createBookingForm').on('submit', function (e) {
+            e.preventDefault();
+            let isValid = true;
+            $('.text-danger').text(''); // Clear previous errors
+
+            // Check each required field
+            $(this).find('[required]').each(function () {
+                if (!$(this).val()) {
+                    isValid = false;
+                    const fieldId = $(this).attr('id');
+                    $('#' + fieldId + 'Error').text('This field is required');
+                }
+            });
+
+            if (isValid) this.submit(); // If valid, proceed with submission
         });
     });
 </script>
