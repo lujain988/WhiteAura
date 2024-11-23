@@ -170,6 +170,8 @@
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter your password", @id = "form3ExamplePassword", required = "required", @oninput = "checkPasswordStrength()" })
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>
+                            <div id="password-strength" class="text-danger mb-4"></div>
+
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 @Html.LabelFor(m => m.ConifrmPassword, "Confirm Password: ", new { @class = "form-label" })
@@ -177,7 +179,6 @@
                                 @Html.ValidationMessageFor(m => m.ConifrmPassword, "", new { @class = "text-danger" })
                             </div>
 
-                            <div id="password-strength" class="text-danger mb-4"></div>
 
                             <div class="d-flex flex-column align-items-center">
                                 <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block mb-4">

@@ -35,7 +35,7 @@ namespace WhiteAura.Models
         public Nullable<System.DateTime> ConfirmedAt { get; set; }
         public Nullable<System.DateTime> PaymentDeadline { get; set; }
         public Nullable<System.TimeSpan> ReservedHours { get; set; }
-        [NotMapped] // Ensure this does not map to the database
+        [NotMapped] 
         public bool IsDateAvailable { get; set; }
 
         public virtual Service Service { get; set; }

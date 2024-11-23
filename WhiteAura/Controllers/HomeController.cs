@@ -18,23 +18,20 @@ namespace WhiteAura.Controllers
             {
                 var userId = (int)Session["UserID"];
 
-                // Check if the user has submitted a testimonial
                 testimonialExists = db.Testimonials.Any(t => t.UserId == userId && t.TestimonialSubmitted == true);
 
-                // Show the toast if the user has not submitted a testimonial and has past bookings
                 var pastBookings = db.Bookings.Where(b => b.UserID == userId && b.BookingDate < DateTime.Now).Any();
                 if (pastBookings && !testimonialExists)
                 {
-                    ViewBag.ShowToastNotification = true; // Set to true to show the toast
+                    ViewBag.ShowToastNotification = true; 
                 }
             }
 
             ViewBag.TestimonialExists = testimonialExists;
 
-            // Fetch only approved testimonials (change 'Approved' to match your exact status string)
             var approvedTestimonials = db.Testimonials
                                           .Where(t => t.Status == "Approved")
-                                          .Take(4) // Limit to 4 testimonials
+                                          .Take(4) 
                                           .ToList();
             ViewBag.ApprovedTestimonials = approvedTestimonials;
 

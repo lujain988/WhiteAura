@@ -42,7 +42,6 @@ namespace WhiteAura.Controllers
                 var existingUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
                 if (existingUser != null)
                 {
-                    // Compare the hashed password
                     if (VerifyPassword(user.Password, existingUser.Password))
                     {
                         Session["UserEmail"] = existingUser.Email;
@@ -53,7 +52,6 @@ namespace WhiteAura.Controllers
                             .Where(b => b.UserID == userId && b.BookingDate < DateTime.Now && !b.Testimonials.Any(t => t.UserId == userId))
                             .ToList();
 
-                        // If there are past bookings, set TempData to show the testimonial popup
                         if (pastBookings.Any())
                         {
                             TempData["ShowTestimonialPopup"] = true;
@@ -99,7 +97,6 @@ namespace WhiteAura.Controllers
                 ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
             }
 
-            // Validate the password requirements
             if (!IsValidPassword(user.Password))
             {
                 ModelState.AddModelError("Password", "Password must be at least 8 characters long, contain at least one uppercase letter, one special character (e.g., @), and one number.");
@@ -110,7 +107,6 @@ namespace WhiteAura.Controllers
                 var existUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
                 if (existUser == null)
                 {
-                    // Hash the password before saving it to the database
                     user.Password = HashPassword(user.Password);
                     db.Users.Add(user);
                     db.SaveChanges();
@@ -126,7 +122,6 @@ namespace WhiteAura.Controllers
             return View(user);
         }
 
-        // Method to validate the password
         private bool IsValidPassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -145,7 +140,6 @@ namespace WhiteAura.Controllers
         [HttpGet]
         public ActionResult Profile()
         {
-            // Retrieve user ID from session
             var userId = Session["UserID"] as int?;
 
             if (userId == null)
@@ -153,9 +147,8 @@ namespace WhiteAura.Controllers
                 return RedirectToAction("Login", "LoginandSignup");
             }
 
-            // Fetch the user information using the user ID and include bookings
             var user = db.Users
-                .Include(u => u.Bookings.Select(b => b.Service)) // Include service details if needed
+                .Include(u => u.Bookings.Select(b => b.Service))
                 .FirstOrDefault(u => u.ID == userId);
 
             if (user == null)
@@ -163,30 +156,27 @@ namespace WhiteAura.Controllers
                 return HttpNotFound();
             }
 
-            // Get a list of all confirmed and paid booking dates for comparison, excluding the current user's bookings
             var unavailableDates = db.Bookings
                 .Where(b => (b.Status == "Confirmed" || b.IsPaid == true) && b.UserID != userId)
                 .Select(b => new
                 {
                     b.ServiceID,
                     BookingDate = DbFunctions.TruncateTime(b.BookingDate),
-                    b.ReservedHours // Include ReservedHours in the selection
+                    b.ReservedHours
                 })
-                .ToList(); // Materialize the query
+                .ToList();
 
-            // Check each booking's date availability directly in the database context
             foreach (var booking in user.Bookings)
             {
-                // Here we are checking against the materialized list
                 booking.IsDateAvailable = !unavailableDates.Any(b =>
                     b.ServiceID == booking.ServiceID &&
                     b.BookingDate.Value.Date == booking.BookingDate.Value.Date &&
                     booking.ReservedHours.HasValue &&
                     b.ReservedHours.HasValue &&
-                    booking.ReservedHours.Value == b.ReservedHours.Value); // Check if the booking's reserved hour matches the unavailable reserved hour
+                    booking.ReservedHours.Value == b.ReservedHours.Value); 
             }
 
-            return View(user); // Return the user with updated bookings including availability status
+            return View(user);
         }
 
         [HttpPost]
@@ -200,13 +190,11 @@ namespace WhiteAura.Controllers
                 return RedirectToAction("Login", "LoginandSignup");
             }
 
-            // Validate the model state before proceeding
             if (!ModelState.IsValid)
             {
-                return View(user); // Ensure you pass the user model back to the view
+                return View(user); 
             }
 
-            // Fetch the user from the database
             var userInDb = db.Users.FirstOrDefault(u => u.ID == userId);
 
             if (userInDb == null)
@@ -214,7 +202,6 @@ namespace WhiteAura.Controllers
                 return HttpNotFound();
             }
 
-            // Update the user's details
             userInDb.FullName = user.FullName;
             userInDb.Email = user.Email;
             userInDb.PhoneNumber = user.PhoneNumber;
@@ -243,12 +230,12 @@ namespace WhiteAura.Controllers
                 return Json(new { success = false, errorMessage = "User not found." });
             }
 
-            if (user.Password != HashPassword(currentPassword)) // Hash the current password for comparison
+            if (user.Password != HashPassword(currentPassword)) 
             {
                 return Json(new { success = false, errorMessage = "Current password is incorrect." });
             }
 
-            user.Password = HashPassword(newPassword); // Hash the new password before saving
+            user.Password = HashPassword(newPassword); 
             db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
             return Json(new { success = true });
@@ -266,7 +253,6 @@ namespace WhiteAura.Controllers
                 return RedirectToAction("Login", "LoginandSignup");
             }
 
-            // Proceed with booking logic or service details
             return RedirectToAction("Book", "Services", new { id = id });
         }
 

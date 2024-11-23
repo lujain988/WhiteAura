@@ -135,32 +135,27 @@ namespace WhiteAura.Controllers
 
         public ActionResult GetBooking(string searchTerm)
         {
-            // Start with the initial query
             var bookings = db.Bookings
-                .Include(b => b.User) // Include User to access FullName and Email
-                .Include(b => b.Service) // Include Service to access ServiceName
-                .AsQueryable(); // Start with an IQueryable
+                .Include(b => b.User)
+                .Include(b => b.Service) 
+                .AsQueryable();
 
-            // Apply filtering based on the search term
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                // Check if the search term is a valid date
                 if (DateTime.TryParse(searchTerm, out DateTime parsedDate))
                 {
-                    // Filter by exact date match using DbFunctions.TruncateTime
                     bookings = bookings.Where(b => DbFunctions.TruncateTime(b.BookingDate) == parsedDate.Date);
                 }
                 else
                 {
-                    // Filter by user name, service name, or email
                     bookings = bookings.Where(b =>
-                        b.User.FullName.Contains(searchTerm) || // Filter by user name
-                        b.Service.ServiceName.Contains(searchTerm) || // Filter by service name
-                        b.User.Email.Contains(searchTerm)); // Filter by user email
+                        b.User.FullName.Contains(searchTerm) ||
+                        b.Service.ServiceName.Contains(searchTerm) ||
+                        b.User.Email.Contains(searchTerm)); 
                 }
             }
 
-            return View(bookings.ToList()); // Convert to List before passing to the view
+            return View(bookings.ToList());
         }
 
 
@@ -227,7 +222,7 @@ namespace WhiteAura.Controllers
                         }
 
                         imageFile.SaveAs(uploadPath);
-                        category.Image = uploadDir + "/" + fileName; // Save the path to the category object
+                        category.Image = uploadDir + "/" + fileName;
                     }
                     catch (Exception ex)
                     {
@@ -241,7 +236,6 @@ namespace WhiteAura.Controllers
                 return Json(new { success = true, message = "Category added successfully." });
             }
 
-            // Return validation errors if the model state is not valid
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return Json(new { success = false, message = string.Join(", ", errors) });
         }
@@ -252,8 +246,7 @@ namespace WhiteAura.Controllers
             var category = db.Categories.Include(a => a.Services).FirstOrDefault(c => c.ID == id);
             if (category != null)
             {
-                // Optionally, handle the deletion of associated vendors
-                db.Services.RemoveRange(category.Services); // If you want to delete vendors associated with the category
+                db.Services.RemoveRange(category.Services);
                 db.Categories.Remove(category);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Category deleted successfully." });
@@ -284,7 +277,6 @@ namespace WhiteAura.Controllers
                 {
                     existingCategory.CategoryName = category.CategoryName;
 
-                    // Handle image upload if a new file is provided
                     if (imageFile != null && imageFile.ContentLength > 0)
                     {
                         try
@@ -341,17 +333,14 @@ namespace WhiteAura.Controllers
             {
                 try
                 {
-                    // Define the upload directory
                     string uploadDir = "~/Uploads";
                     string uploadPath = Server.MapPath(uploadDir);
 
-                    // Ensure the upload directory exists
                     if (!Directory.Exists(uploadPath))
                     {
                         Directory.CreateDirectory(uploadPath);
                     }
 
-                    // Upload the main image
                     if (image != null && image.ContentLength > 0)
                     {
                         string fileName = Path.GetFileName(image.FileName);
@@ -412,14 +401,12 @@ namespace WhiteAura.Controllers
             {
                 try
                 {
-                    // Retrieve the existing service from the database
                     var existingService = db.Services.Find(service.ID);
                     if (existingService == null)
                     {
                         return Json(new { success = false, message = "Service not found." });
                     }
 
-                    // Update the existing service properties
                     existingService.ServiceName = service.ServiceName;
                     existingService.Description = service.Description;
                     existingService.Price = service.Price;
@@ -432,26 +419,22 @@ namespace WhiteAura.Controllers
                     existingService.Location = service.Location;
                     existingService.LocationPlace = service.LocationPlace;
 
-                    // Define the upload directory
                     string uploadDir = "~/Uploads";
                     string uploadPath = Server.MapPath(uploadDir);
 
-                    // Ensure the upload directory exists
                     if (!Directory.Exists(uploadPath))
                     {
                         Directory.CreateDirectory(uploadPath);
                     }
 
-                    // Handle the main image upload
                     if (imageFile != null && imageFile.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(imageFile.FileName);
                         var mainImagePath = Path.Combine(uploadPath, fileName);
                         imageFile.SaveAs(mainImagePath);
-                        existingService.Image = uploadDir + "/" + fileName; // Save the new image path in the same way as in CreateService
+                        existingService.Image = uploadDir + "/" + fileName; 
                     }
 
-                    // Handle additional image uploads img1 to img7
                     for (int i = 0; i < imgFiles.Length; i++)
                     {
                         if (imgFiles[i] != null && imgFiles[i].ContentLength > 0)
@@ -459,11 +442,10 @@ namespace WhiteAura.Controllers
                             var imgFileName = Path.GetFileName(imgFiles[i].FileName);
                             var imgPath = Path.Combine(uploadPath, imgFileName);
                             imgFiles[i].SaveAs(imgPath);
-                            typeof(Service).GetProperty($"img{i + 1}").SetValue(existingService, uploadDir + "/" + imgFileName); // Update the img property
+                            typeof(Service).GetProperty($"img{i + 1}").SetValue(existingService, uploadDir + "/" + imgFileName); 
                         }
                     }
 
-                    // Save changes to the database
                     db.SaveChanges();
                     return Json(new { success = true, message = "Service updated successfully!" });
                 }
@@ -473,7 +455,6 @@ namespace WhiteAura.Controllers
                 }
             }
 
-            // If model state is invalid, collect and return errors
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return Json(new { success = false, message = "Validation failed: " + string.Join(", ", errors) });
         }
@@ -488,13 +469,11 @@ namespace WhiteAura.Controllers
                 return Json(new { success = false, message = "Service not found." });
             }
 
-            // Delete related bookings first
             if (service.Bookings != null && service.Bookings.Any())
             {
                 db.Bookings.RemoveRange(service.Bookings);
             }
 
-            // Now delete the service
             db.Services.Remove(service);
             db.SaveChanges();
 
@@ -533,11 +512,9 @@ namespace WhiteAura.Controllers
             var booking = db.Bookings.Include(b => b.Payments).FirstOrDefault(b => b.ID == id);
             if (booking != null)
             {
-                // Remove all related payments
                 db.ConfirmationDates.RemoveRange(booking.ConfirmationDates);
                 db.Payments.RemoveRange(booking.Payments);
 
-                // Remove the booking
                 db.Bookings.Remove(booking);
                 db.SaveChanges();
 
@@ -557,18 +534,16 @@ namespace WhiteAura.Controllers
 
             if (contactU == null)
             {
-                return HttpNotFound();  // Return 404 if no contact is found
+                return HttpNotFound();  
             }
 
-            // Ensure the email is not null
             if (string.IsNullOrEmpty(contactU.Email))
             {
-                // Handle the case where the email is missing
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Contact email is missing.");
             }
             ViewBag.ContactId = contactU.ID;
 
-            ViewBag.Email = contactU.Email; // Set the email to ViewBag
+            ViewBag.Email = contactU.Email; 
             return View();
         }
 
@@ -578,15 +553,13 @@ namespace WhiteAura.Controllers
         {
             try
             {
-                // Retrieve the contact message using the ID
                 ContactU contactU = db.ContactUs.FirstOrDefault(a => a.ID == id);
                 if (contactU == null)
                 {
                     return Json(new { success = false, message = "Contact message not found." });
                 }
 
-                // Prepend "Re:" to the original subject
-                string subject = "Re: " + contactU.Subject; // Use the original subject with "Re:"
+                string subject = "Re: " + contactU.Subject; 
 
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
@@ -598,7 +571,7 @@ namespace WhiteAura.Controllers
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress("whiteaurateam@gmail.com", "WhiteAura"),
-                    Subject = subject, // Set the subject as "Re: [Original Subject]"
+                    Subject = subject, 
                     Body = message,
                     IsBodyHtml = false,
                 };
@@ -607,7 +580,6 @@ namespace WhiteAura.Controllers
 
                 smtpClient.Send(mailMessage);
 
-                // Mark as replied
                 contactU.IsReplied = true;
                 db.Entry(contactU).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -671,17 +643,14 @@ namespace WhiteAura.Controllers
                 {
                     blog.CreatedAt = DateTime.Now;
 
-                    // Define the upload directory
                     string uploadDir = "~/Uploads/Blogs";
                     string uploadPath = Server.MapPath(uploadDir);
 
-                    // Ensure the upload directory exists
                     if (!Directory.Exists(uploadPath))
                     {
                         Directory.CreateDirectory(uploadPath);
                     }
 
-                    // Upload the main image
                     if (image != null && image.ContentLength > 0)
                     {
                         string fileName = Path.GetFileName(image.FileName);
@@ -690,7 +659,6 @@ namespace WhiteAura.Controllers
                         blog.Image = uploadDir + "/" + fileName;
                     }
 
-                    // Upload additional images
                     for (int i = 1; i <= 4; i++)
                     {
                         var imgFile = this.HttpContext.Request.Files[$"img{i}"];
@@ -703,7 +671,6 @@ namespace WhiteAura.Controllers
                         }
                     }
 
-                    // Save the blog to the database
                     db.Blogs.Add(blog);
                     db.SaveChanges();
 
@@ -715,7 +682,6 @@ namespace WhiteAura.Controllers
                 }
             }
 
-            // Log ModelState errors
             foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
             {
                 Console.WriteLine(error.ErrorMessage);
@@ -724,7 +690,6 @@ namespace WhiteAura.Controllers
             return Json(new { success = false, message = "There was an error creating the blog." });
         }
 
-        // GET: Load the blog edit form
         [HttpGet]
         public ActionResult EditBlog(int? id)
         {
@@ -742,7 +707,6 @@ namespace WhiteAura.Controllers
             return View(blog);
         }
 
-        // POST: Save the edited blog
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditBlog(Blog model, HttpPostedFileBase imageFile, IEnumerable<HttpPostedFileBase> imgFiles)
@@ -751,34 +715,28 @@ namespace WhiteAura.Controllers
             {
                 try
                 {
-                    // Fetch the existing blog entry from the database
                     var existingBlog = db.Blogs.Find(model.ID);
                     if (existingBlog != null)
                     {
-                        // Update the properties from the model
                         existingBlog.Title = model.Title;
                         existingBlog.Content = model.Content;
 
-                        // Define the upload directory
                         string uploadDir = "~/Uploads/Blogs";
                         string uploadPath = Server.MapPath(uploadDir);
 
-                        // Ensure the upload directory exists
                         if (!Directory.Exists(uploadPath))
                         {
                             Directory.CreateDirectory(uploadPath);
                         }
 
-                        // Only update the main image if a new file is uploaded
                         if (imageFile != null && imageFile.ContentLength > 0)
                         {
                             string fileName = Path.GetFileName(imageFile.FileName);
                             string mainImagePath = Path.Combine(uploadPath, fileName);
                             imageFile.SaveAs(mainImagePath);
-                            existingBlog.Image = uploadDir + "/" + fileName; // Store the relative path
+                            existingBlog.Image = uploadDir + "/" + fileName; 
                         }
 
-                        // Handle additional images
                         for (int i = 0; i < imgFiles.Count(); i++)
                         {
                             var imgFile = imgFiles.ElementAt(i);
@@ -788,11 +746,10 @@ namespace WhiteAura.Controllers
                                 string additionalImagePath = Path.Combine(uploadPath, fileName);
                                 imgFile.SaveAs(additionalImagePath);
                                 existingBlog.GetType().GetProperty($"img{i + 1}")
-                                    .SetValue(existingBlog, uploadDir + "/" + fileName); // Store the relative path
+                                    .SetValue(existingBlog, uploadDir + "/" + fileName); 
                             }
                         }
 
-                        // Save changes to the database
                         db.SaveChanges();
                         return Json(new { success = true, message = "Blog updated successfully!" });
                     }
@@ -804,7 +761,6 @@ namespace WhiteAura.Controllers
                 }
             }
 
-            // If model state is invalid, return error messages
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return Json(new { success = false, message = "Validation failed: " + string.Join(", ", errors) });
         }
@@ -857,12 +813,11 @@ namespace WhiteAura.Controllers
         [HttpPost]
         public JsonResult UpdateStatus(int id, string status)
         {
-            // Find the testimonial by ID
             var testimonial = db.Testimonials.Find(id);
             if (testimonial != null)
             {
-                testimonial.Status = status; // Update status
-                db.SaveChanges(); // Save changes to the database
+                testimonial.Status = status;
+                db.SaveChanges(); 
                 return Json(new { success = true, message = "Status updated successfully!" });
             }
             return Json(new { success = false, message = "Testimonial not found." });
@@ -871,20 +826,18 @@ namespace WhiteAura.Controllers
         [HttpPost]
         public JsonResult DeleteTest(int id)
         {
-            // Find the testimonial by ID
             var testimonial = db.Testimonials.Find(id);
             if (testimonial != null)
             {
-                db.Testimonials.Remove(testimonial); // Remove the testimonial
+                db.Testimonials.Remove(testimonial); 
 
                 try
                 {
-                    db.SaveChanges(); // Save changes to the database
+                    db.SaveChanges(); 
                     return Json(new { success = true, message = "Testimonial deleted successfully!" });
                 }
                 catch (Exception ex)
                 {
-                    // Log the error message (using a logging framework or console)
                     Console.WriteLine(ex.Message);
                     return Json(new { success = false, message = "An error occurred while deleting the testimonial." });
                 }
